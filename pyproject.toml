@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "strata-cli"
+name = "strata-arch"
 version = "0.2.0"
 description = "Architecture as a Service — design, govern, and automate enterprise, data, and solution architecture"
 readme = "README.md"
@@ -31,6 +31,12 @@ dependencies = [
   "httpx>=0.27.0",
   "textual>=0.65.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/pehur00/strata"
+Repository = "https://github.com/pehur00/strata"
+"Bug Tracker" = "https://github.com/pehur00/strata/issues"
+Changelog = "https://github.com/pehur00/strata/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [

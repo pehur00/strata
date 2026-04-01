@@ -22,7 +22,7 @@ from typing import Any
 
 import yaml
 
-from .workspace import find_workspace_root
+from .workspace import find_workspace_root, _atomic_write, WORKSPACE_DIR
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 
@@ -71,7 +71,7 @@ class FileTracker:
         if root is None:
             root = find_workspace_root()
         self._root = Path(root)
-        self._index_path = self._root / INDEX_FILE
+        self._index_path = self._root / WORKSPACE_DIR / INDEX_FILE
         self._entries: dict[str, dict[str, Any]] = {}
         self._load()
 
@@ -84,8 +84,9 @@ class FileTracker:
 
     def save(self) -> None:
         """Write the index back to ``architecture/file_index.yaml``."""
-        self._index_path.write_text(
-            yaml.dump(self._entries, default_flow_style=False, sort_keys=True)
+        _atomic_write(
+            self._index_path,
+            yaml.dump(self._entries, default_flow_style=False, sort_keys=True),
         )
 
     # ── Public API ─────────────────────────────────────────────────────────

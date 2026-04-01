@@ -12,12 +12,8 @@ PKG_DIR := $(shell pwd)
         install-full full db-start db-stop db-reset db-shell db-logs
 
 ## ── Global install (like brew install / git) ─────────────────────────────────
-## ⚠  Always use 'make install' — NOT 'pipx install strata-cli'.
-## ⚠  There is an unrelated 'strata-cli' on PyPI with the same package name.
 install:
 	@echo "→ Installing strata globally…"
-	@echo "   (using local source at $(PKG_DIR) — not PyPI)"
-	@# Force-replace any existing strata-cli (including the unrelated PyPI package)
 	$(PIPX) install --force "$(PKG_DIR)"
 	@echo "✅  strata is now available globally.  Try: strata --help"
 
@@ -30,7 +26,7 @@ update:
 ## ── Uninstall ─────────────────────────────────────────────────────────────────
 uninstall:
 	@echo "→ Removing strata global install…"
-	$(PIPX) uninstall strata-cli
+	$(PIPX) uninstall strata-arch
 	@echo "✅  strata removed."
 
 ## ── Reinstall from scratch ───────────────────────────────────────────────────
@@ -58,12 +54,8 @@ build: clean
 	@echo "✅  Wheel in dist/"
 
 ## ── Install with all optional features ─────────────────────────────────────
-## ⚠  Always use 'make install-full' — NOT 'pipx install strata-cli[full]'.
-## ⚠  There is an unrelated 'strata-cli' package on PyPI; the bare pipx
-## ⚠  command will pull that instead of this local package.
 install-full:
 	@echo "→ Installing strata globally with all optional features…"
-	@echo "   (using local source at $(PKG_DIR) — not PyPI)"
 	$(PIPX) install --force "$(PKG_DIR)[full]"
 	@echo "✅  strata (full) installed: postgres + pgvector + live watching."
 

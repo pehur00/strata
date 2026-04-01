@@ -28,6 +28,7 @@ from .workspace import (
     next_staging_id, save_staging, save_workspace,
     add_watch_folder, remove_watch_folder, load_watch_folders,
 )
+from .validation import validate_workspace
 
 # ── App + sub-apps ─────────────────────────────────────────────────────────────
 
@@ -201,64 +202,21 @@ def status() -> None:
 def validate() -> None:
     """Validate cross-references across the full workspace."""
     workspace = _load()
-    errors: list[str] = []
-    warnings: list[str] = []
-    cap_ids = {c.id for c in workspace.enterprise.capabilities}
-    domain_ids = {d.id for d in workspace.data.domains}
-    product_ids = {p.id for p in workspace.data.products}
+    result = validate_workspace(workspace)
 
-    for application in workspace.enterprise.applications:
-        for cid in application.capability_ids:
-            if cid not in cap_ids:
-                errors.append(
-                    f"Application '{application.name}' references unknown capability '{cid}'"
-                )
-    for product in workspace.data.products:
-        if product.domain_id not in domain_ids:
-            errors.append(
-                f"Data product '{product.name}' references unknown domain '{product.domain_id}'"
-            )
-    for flow in workspace.data.flows:
-        if flow.source_domain not in domain_ids:
-            warnings.append(
-                f"Flow '{flow.name}': source '{flow.source_domain}' not modelled (external?)"
-            )
-        if flow.target_domain not in domain_ids:
-            warnings.append(
-                f"Flow '{flow.name}': target '{flow.target_domain}' not modelled (external?)"
-            )
-        if flow.data_product_id and flow.data_product_id not in product_ids:
-            errors.append(
-                f"Flow '{flow.name}' references unknown product '{flow.data_product_id}'"
-            )
-    for sol in workspace.solutions:
-        comp_ids = {c.id for c in sol.components}
-        for comp in sol.components:
-            for dep in comp.dependencies:
-                if dep not in comp_ids:
-                    warnings.append(
-                        f"Solution '{sol.name}' / component '{comp.name}' "
-                        f"depends on unknown component '{dep}'"
-                    )
-        for cid in sol.business_capability_ids:
-            if cid not in cap_ids:
-                warnings.append(
-                    f"Solution '{sol.name}' references unknown capability '{cid}'"
-                )
-
-    if not errors and not warnings:
+    if result.is_valid and not result.warnings:
         console.print("[green]✓ Workspace is valid. No issues found.[/]")
         return
-    if warnings:
+    if result.warnings:
         t = Table(title="Warnings", box=box.SIMPLE)
         t.add_column("Warning")
-        for w in warnings:
+        for w in result.warnings:
             t.add_row(f"[yellow]{w}[/]")
         console.print(t)
-    if errors:
+    if result.errors:
         t = Table(title="Errors", box=box.SIMPLE)
         t.add_column("Error")
-        for e in errors:
+        for e in result.errors:
             t.add_row(f"[red]{e}[/]")
         console.print(t)
         raise typer.Exit(code=1)

@@ -7,3 +7,6 @@ venv/
 .DS_Store
 *.report.json
 *.md.tmp
+build/
+dist/
+.strata.lock

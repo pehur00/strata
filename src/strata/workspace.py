@@ -1,6 +1,14 @@
 from __future__ import annotations
+
+import fcntl
+import os
+import tempfile
+from contextlib import contextmanager
 from pathlib import Path
+from typing import Iterator
+
 import yaml
+
 from .models import (
     ArchitectureWorkspace, DataArchitecture, EnterpriseArchitecture,
     SolutionDesign, StagedItem, WorkspaceManifest,
@@ -9,10 +17,46 @@ from .models import (
 WORKSPACE_DIR = "architecture"
 MANIFEST_FILE = "strata.yaml"
 STAGING_FILE = "staging.yaml"
+_LOCK_FILE = ".strata.lock"
 
 
 class WorkspaceError(Exception):
     """Raised when the workspace cannot be found or loaded."""
+
+
+@contextmanager
+def _workspace_lock(root: Path) -> Iterator[None]:
+    """Acquire an exclusive advisory lock on the workspace directory.
+
+    Uses ``fcntl.flock`` which is released automatically when the file
+    descriptor is closed, even on crash.  Falls back gracefully on
+    platforms that do not support ``flock`` (e.g. some NFS mounts).
+    """
+    lock_path = root / _LOCK_FILE
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    fh = lock_path.open("w")
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX)
+        yield
+    finally:
+        fcntl.flock(fh, fcntl.LOCK_UN)
+        fh.close()
+
+
+def _atomic_write(path: Path, content: str) -> None:
+    """Write *content* to *path* atomically via a temp-file + rename."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=".tmp_")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(content)
+        os.replace(tmp, path)  # atomic on POSIX; overwrites atomically on Windows (Py3.3+)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
 
 
 def find_workspace_root(start: Path | None = None) -> Path | None:
@@ -76,29 +120,40 @@ def save_workspace(workspace: ArchitectureWorkspace, root: Path | None = None) -
     ws_root = root or find_workspace_root() or Path.cwd()
     arch = _arch_dir(ws_root)
     arch.mkdir(parents=True, exist_ok=True)
-    (arch / MANIFEST_FILE).write_text(
-        yaml.dump(workspace.manifest.model_dump(exclude_none=True), sort_keys=False),
-        encoding="utf-8",
-    )
-    enterprise_dir = arch / "enterprise"
-    enterprise_dir.mkdir(exist_ok=True)
-    (enterprise_dir / "architecture.yaml").write_text(
-        yaml.dump(workspace.enterprise.model_dump(exclude_none=True), sort_keys=False),
-        encoding="utf-8",
-    )
-    data_dir = arch / "data"
-    data_dir.mkdir(exist_ok=True)
-    (data_dir / "architecture.yaml").write_text(
-        yaml.dump(workspace.data.model_dump(exclude_none=True), sort_keys=False),
-        encoding="utf-8",
-    )
-    solutions_dir = arch / "solutions"
-    solutions_dir.mkdir(exist_ok=True)
-    for solution in workspace.solutions:
-        (solutions_dir / f"{solution.id}.yaml").write_text(
-            yaml.dump(solution.model_dump(exclude_none=True), sort_keys=False),
-            encoding="utf-8",
+
+    with _workspace_lock(ws_root):
+        _atomic_write(
+            arch / MANIFEST_FILE,
+            yaml.dump(workspace.manifest.model_dump(exclude_none=True), sort_keys=False),
         )
+
+        _atomic_write(
+            arch / "enterprise" / "architecture.yaml",
+            yaml.dump(workspace.enterprise.model_dump(exclude_none=True), sort_keys=False),
+        )
+
+        _atomic_write(
+            arch / "data" / "architecture.yaml",
+            yaml.dump(workspace.data.model_dump(exclude_none=True), sort_keys=False),
+        )
+
+        solutions_dir = arch / "solutions"
+        solutions_dir.mkdir(exist_ok=True)
+
+        # Write current solutions atomically
+        current_ids: set[str] = set()
+        for solution in workspace.solutions:
+            _atomic_write(
+                solutions_dir / f"{solution.id}.yaml",
+                yaml.dump(solution.model_dump(exclude_none=True), sort_keys=False),
+            )
+            current_ids.add(solution.id)
+
+        # Remove stale solution files that are no longer in the workspace
+        for existing in solutions_dir.glob("*.yaml"):
+            if existing.stem not in current_ids:
+                existing.unlink()
+
     return ws_root
 
 # ── Staging helpers ────────────────────────────────────────────────────────────
@@ -122,11 +177,9 @@ def save_staging(items: list[StagedItem], root: Path | None = None) -> None:
     """Persist staged items to the workspace staging file."""
     ws_root = root or find_workspace_root() or Path.cwd()
     arch = _arch_dir(ws_root)
-    arch.mkdir(parents=True, exist_ok=True)
-    path = arch / STAGING_FILE
-    path.write_text(
+    _atomic_write(
+        arch / STAGING_FILE,
         yaml.dump([item.model_dump(exclude_none=True) for item in items], sort_keys=False),
-        encoding="utf-8",
     )
 
 
