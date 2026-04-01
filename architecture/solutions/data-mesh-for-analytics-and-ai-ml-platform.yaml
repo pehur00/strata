@@ -1,0 +1,11 @@
+id: data-mesh-for-analytics-and-ai-ml-platform
+name: Data Mesh for Analytics and AI/ML Platform
+description: Adopt data mesh architecture with four initial data domains aligned to
+  business capability structure. Each domain team owns, operates, and publishes data
+  products via standardised data product interface.
+status: draft
+business_capability_ids: []
+components: []
+adrs: []
+deployment_target: multi-cloud
+pattern: data-mesh

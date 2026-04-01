@@ -1,0 +1,273 @@
+domains:
+- id: order-management
+  name: Order Management
+  description: Domain responsible for order provisioning with improved latency through
+    event-driven architecture
+  entities: []
+  storage_pattern: streaming
+- id: network-provisioning
+  name: Network Provisioning
+  description: Domain handling network provisioning with real-time event processing
+  entities: []
+  storage_pattern: streaming
+- id: fault-management
+  name: Fault Management
+  description: Domain for network fault event processing with real-time correlation
+    replacing polling
+  entities: []
+  storage_pattern: streaming
+- id: billing
+  name: Billing
+  description: Domain for billing operations integrated via event-driven architecture
+  entities: []
+  storage_pattern: streaming
+- id: network-domain
+  name: Network Domain
+  description: Network topology, cell performance, fault events, spectrum utilisation
+  entities: []
+  storage_pattern: mixed
+- id: customer-domain
+  name: Customer Domain
+  description: Subscriber profiles, contracts, interactions, churn signals
+  entities: []
+  storage_pattern: mixed
+- id: revenue-domain
+  name: Revenue Domain
+  description: Billing records, payment transactions, product catalogue, invoicing
+  entities: []
+  storage_pattern: mixed
+- id: product-iot-domain
+  name: Product & IoT Domain
+  description: Device registry, SIM lifecycle, IoT telemetry, service catalogue
+  entities: []
+  storage_pattern: mixed
+- id: customer
+  name: Customer
+  description: Subscriber profiles, accounts, subscriptions, usage data, and session
+    management
+  entities: []
+  storage_pattern: operational
+- id: network
+  name: Network
+  description: Network usage events and provisioning integration points
+  entities: []
+  storage_pattern: streaming
+- id: product-iot
+  name: Product & IoT
+  description: Offer catalogue and product management
+  entities: []
+  storage_pattern: operational
+- id: network-data-domain
+  name: Network Data Domain
+  description: Real-time and historical network telemetry, fault events, KPIs, topology,
+    and capacity data
+  owner_team: Network Platform Team
+  entities: []
+  storage_pattern: mixed
+- id: security-data-domain
+  name: Security Data Domain
+  description: Network security events, anomalies, and configuration compliance posture
+    data
+  owner_team: Security Operations
+  entities: []
+  storage_pattern: mixed
+products:
+- id: network-events-feed
+  name: Network Events Feed
+  domain_id: network-domain
+  output_port: streaming
+  sla_tier: gold
+  consumers: []
+- id: network-topology-snapshot
+  name: Network Topology Snapshot
+  domain_id: network-domain
+  output_port: sql
+  sla_tier: silver
+  consumers: []
+- id: subscriber-360
+  name: Subscriber 360
+  domain_id: customer-domain
+  output_port: sql
+  sla_tier: gold
+  consumers: []
+- id: churn-signals-feed
+  name: Churn Signals Feed
+  domain_id: customer-domain
+  output_port: streaming
+  sla_tier: gold
+  consumers: []
+- id: billing-ledger
+  name: Billing Ledger
+  domain_id: revenue-domain
+  output_port: sql
+  sla_tier: silver
+  consumers: []
+- id: revenue-summary
+  name: Revenue Summary
+  domain_id: revenue-domain
+  output_port: sql
+  sla_tier: bronze
+  consumers: []
+- id: sim-lifecycle-events
+  name: SIM Lifecycle Events
+  domain_id: product-and-iot-domain
+  output_port: streaming
+  sla_tier: gold
+  consumers: []
+- id: device-registry
+  name: Device Registry
+  domain_id: product-and-iot-domain
+  output_port: sql
+  sla_tier: silver
+  consumers: []
+- id: network-events-feed-8
+  name: Network Events Feed
+  domain_id: network-data-domain
+  output_port: streaming
+  sla_tier: gold
+  consumers: []
+- id: cell-performance-kpis
+  name: Cell Performance KPIs
+  domain_id: network-data-domain
+  output_port: sql
+  sla_tier: silver
+  consumers: []
+- id: network-topology-graph
+  name: Network Topology Graph
+  domain_id: network-data-domain
+  output_port: api
+  sla_tier: silver
+  consumers: []
+- id: fault-history
+  name: Fault History
+  domain_id: network-data-domain
+  output_port: sql
+  sla_tier: bronze
+  consumers: []
+- id: capacity-utilisation-report
+  name: Capacity Utilisation Report
+  domain_id: network-data-domain
+  output_port: files
+  sla_tier: bronze
+  consumers: []
+- id: security-events-stream
+  name: Security Events Stream
+  domain_id: security-data-domain
+  output_port: streaming
+  sla_tier: gold
+  consumers: []
+- id: compliance-posture-snapshot
+  name: Compliance Posture Snapshot
+  domain_id: security-data-domain
+  output_port: files
+  sla_tier: bronze
+  consumers: []
+flows:
+- id: data-product-distribution
+  name: Data Product Distribution
+  source_domain: network-domain
+  target_domain: customer-domain
+  mechanism: streaming
+  classification: internal
+- id: data-product-distribution-1
+  name: Data Product Distribution
+  source_domain: network-domain
+  target_domain: revenue-domain
+  mechanism: streaming
+  classification: internal
+- id: data-product-distribution-2
+  name: Data Product Distribution
+  source_domain: customer-domain
+  target_domain: revenue-domain
+  mechanism: streaming
+  classification: internal
+- id: partner-api-traffic
+  name: Partner API Traffic
+  source_domain: partner-ecosystem
+  target_domain: api-integration
+  mechanism: api
+  classification: internal
+- id: public-api-traffic
+  name: Public API Traffic
+  source_domain: digital-platform
+  target_domain: api-integration
+  mechanism: api
+  classification: public
+- id: kafka-webhooks-via-kong
+  name: Kafka Webhooks via Kong
+  source_domain: event-platform
+  target_domain: api-integration
+  mechanism: streaming
+  classification: internal
+- id: real-time-usage-update
+  name: Real-Time Usage Update
+  source_domain: Network
+  target_domain: Customer
+  mechanism: streaming
+  classification: internal
+- id: plan-change
+  name: Plan Change
+  source_domain: Customer
+  target_domain: Customer
+  mechanism: api
+  classification: internal
+- id: network-provisioning-integration
+  name: Network Provisioning Integration
+  source_domain: Customer
+  target_domain: Network
+  mechanism: streaming
+  classification: internal
+- id: bss-billing-integration
+  name: BSS Billing Integration
+  source_domain: Customer
+  target_domain: Product & IoT
+  mechanism: api
+  classification: internal
+- id: crm-salesforce-integration
+  name: CRM Salesforce Integration
+  source_domain: Customer
+  target_domain: Customer
+  mechanism: cdc
+  classification: internal
+- id: fraud-management-integration
+  name: Fraud Management Integration
+  source_domain: Customer
+  target_domain: Customer
+  mechanism: streaming
+  classification: confidential
+- id: datahub-metadata-push
+  name: DataHub Metadata Push
+  source_domain: Customer
+  target_domain: Product & IoT
+  mechanism: api
+  classification: internal
+- id: fault-detection-and-escalation
+  name: Fault Detection and Escalation
+  source_domain: network-data-domain
+  target_domain: network-operations
+  mechanism: streaming
+  classification: internal
+- id: fault-to-customer-experience-impact
+  name: Fault to Customer Experience Impact
+  source_domain: network-data-domain
+  target_domain: customer-experience-platform
+  mechanism: streaming
+  classification: internal
+- id: sla-breach-reporting
+  name: SLA Breach Reporting
+  source_domain: network-data-domain
+  target_domain: revenue-and-billing
+  mechanism: streaming
+  classification: internal
+- id: configuration-change-gitops
+  name: Configuration Change GitOps
+  source_domain: network-data-domain
+  target_domain: network-operations
+  mechanism: api
+  classification: internal
+- id: security-events-to-siem
+  name: Security Events to SIEM
+  source_domain: security-data-domain
+  target_domain: security-operations
+  mechanism: streaming
+  classification: confidential

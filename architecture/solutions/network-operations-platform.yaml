@@ -1,0 +1,10 @@
+id: network-operations-platform
+name: Network Operations Platform
+description: Cloud-native, event-driven operational intelligence layer for Meridian
+  Telecom 5G network covering 4,800 cell sites, replacing legacy NetCracker OSS v8.2
+status: draft
+business_capability_ids: []
+components: []
+adrs: []
+deployment_target: hybrid
+pattern: event-driven

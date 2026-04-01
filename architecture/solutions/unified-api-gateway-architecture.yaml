@@ -1,0 +1,11 @@
+id: unified-api-gateway-architecture
+name: Unified API Gateway Architecture
+description: Enterprise API gateway solution consolidating internal, partner, and
+  public API traffic through Kong Gateway with unified authentication, rate limiting,
+  observability, and developer portal
+status: draft
+business_capability_ids: []
+components: []
+adrs: []
+deployment_target: multi-cloud
+pattern: api-gateway

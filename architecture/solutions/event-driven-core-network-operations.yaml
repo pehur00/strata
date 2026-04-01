@@ -1,0 +1,11 @@
+id: event-driven-core-network-operations
+name: Event-Driven Core Network Operations
+description: Event-driven architecture using Apache Kafka as central event streaming
+  backbone for real-time network operations and business event flows across Order
+  Management, Network Provisioning, Fault Management, and Billing domains
+status: draft
+business_capability_ids: []
+components: []
+adrs: []
+deployment_target: on-premise
+pattern: event-driven

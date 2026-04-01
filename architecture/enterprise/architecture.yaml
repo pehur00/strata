@@ -1,0 +1,906 @@
+capabilities:
+- id: activate-internet
+  name: activate-internet
+  level: core
+  domain: activation
+  owner: OSS
+  maturity: initial
+- id: api-authentication
+  name: API Authentication
+  description: OAuth 2.0 (PKCE for public), mTLS (partners), API keys (legacy) authentication
+    via Kong Gateway
+  level: core
+  domain: integration
+  owner: Platform Engineering
+  maturity: initial
+- id: api-rate-limiting
+  name: API Rate Limiting
+  description: Redis-backed sliding window rate limiting configurable per consumer/tier
+    via Kong Gateway
+  level: core
+  domain: integration
+  owner: Platform Engineering
+  maturity: initial
+- id: api-observability
+  name: API Observability
+  description: Kong metrics exported to OpenTelemetry and Grafana for API monitoring
+    and analytics
+  level: core
+  domain: integration
+  owner: Platform Engineering
+  maturity: initial
+- id: api-developer-portal
+  name: API Developer Portal
+  description: Kong Developer Portal for partner API discovery, onboarding, and self-service
+    capability
+  level: supporting
+  domain: integration
+  owner: Platform Engineering
+  maturity: initial
+- id: api-monetisation
+  name: API Monetisation
+  description: Foundation for partner billing by API consumption via Kong Gateway
+    rate limiting and analytics
+  level: supporting
+  domain: integration
+  owner: Platform Engineering
+  maturity: initial
+- id: self-service-account-management
+  name: Self-Service Account Management
+  description: Enables subscribers to manage account settings independently
+  level: core
+  domain: Customer Experience
+  maturity: initial
+- id: subscription-plan-management
+  name: Subscription & Plan Management
+  description: Allows subscribers to view, change, and manage subscription plans
+  level: core
+  domain: Customer Experience
+  maturity: initial
+- id: real-time-usage-spend-visibility
+  name: Real-Time Usage & Spend Visibility
+  description: Provides real-time visibility into usage and spending
+  level: core
+  domain: Customer Experience
+  maturity: initial
+- id: personalised-offer-delivery
+  name: Personalised Offer Delivery
+  description: Delivers personalised offers to subscribers
+  level: strategic
+  domain: Marketing & Sales
+  maturity: initial
+- id: digital-customer-onboarding
+  name: Digital Customer Onboarding
+  description: Enables streamlined digital onboarding for new subscribers
+  level: core
+  domain: Customer Experience
+  maturity: initial
+- id: multi-channel-support
+  name: Multi-Channel Support
+  description: Provides customer support across chat, email, and app channels
+  level: supporting
+  domain: Customer Support
+  maturity: initial
+- id: loyalty-rewards-management
+  name: Loyalty & Rewards Management
+  description: Manages loyalty programs and rewards for subscribers
+  level: supporting
+  domain: Marketing & Sales
+  maturity: initial
+- id: network-fault-management
+  name: Network Fault Management
+  description: Detection, correlation, and management of network faults across 4,800
+    cell sites
+  level: core
+  domain: Network Operations
+  maturity: initial
+- id: network-performance-management
+  name: Network Performance Management
+  description: Real-time and historical performance monitoring of network KPIs and
+    SLAs
+  level: core
+  domain: Network Operations
+  maturity: initial
+- id: network-configuration-management
+  name: Network Configuration Management
+  description: GitOps-based network configuration deployment and compliance management
+  level: core
+  domain: Network Operations
+  maturity: initial
+- id: capacity-planning-forecasting
+  name: Capacity Planning & Forecasting
+  description: Network capacity utilization analysis and forecasting for capacity
+    planning
+  level: strategic
+  domain: Network Operations
+  maturity: initial
+- id: field-operations-support
+  name: Field Operations Support
+  description: Mobile app and work order management for field engineers at network
+    sites
+  level: supporting
+  domain: Network Operations
+  maturity: initial
+- id: spectrum-management
+  name: Spectrum Management
+  description: Management of spectrum allocation and utilization across 5G network
+  level: core
+  domain: Network Operations
+  maturity: initial
+- id: security-operations-network
+  name: Security Operations (Network)
+  description: Network security event monitoring and compliance posture tracking
+  level: core
+  domain: Security & Compliance
+  maturity: initial
+applications:
+- id: apache-kafka
+  name: Apache Kafka
+  description: Event backbone for core network operations, Apache Kafka 3.8 on Kubernetes
+    with 7-day event retention
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: planned
+  hosting: kubernetes
+  criticality: critical
+- id: confluent-schema-registry
+  name: Confluent Schema Registry
+  description: Schema enforcement for Avro/Protobuf schemas per Kafka topic
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: planned
+  hosting: kubernetes
+  criticality: high
+- id: kafka-connect
+  name: Kafka Connect
+  description: CDC from Oracle BSS and legacy OSS databases during transition to event-driven
+    architecture
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: planned
+  hosting: kubernetes
+  criticality: high
+- id: ksql-flink
+  name: KSQL / Flink
+  description: Stream processing for complex event patterns including churn signals
+    and fraud detection
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: planned
+  hosting: kubernetes
+  criticality: high
+- id: kong-gateway
+  name: Kong Gateway
+  description: Unified API gateway for internal, partner, and public APIs with authentication,
+    rate limiting, observability, and developer portal capabilities
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: planned
+  owner_team: Platform Engineering
+  hosting: kubernetes
+  criticality: high
+- id: kong-konnect
+  name: Kong Konnect
+  description: SaaS control plane for Kong Gateway, avoiding self-managed Postgres
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: planned
+  owner_team: Platform Engineering
+  hosting: saas
+  criticality: high
+- id: axway-api-gateway
+  name: Axway API Gateway
+  description: Legacy API gateway for partner APIs, version 7.7, end-of-life Q2 2026
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: retiring
+  owner_team: Integration Architecture
+  hosting: managed-service
+  criticality: high
+- id: aws-api-gateway
+  name: AWS API Gateway
+  description: Per-service public API gateway with inconsistent configuration, to
+    be consolidated to Kong
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: retiring
+  hosting: saas
+  criticality: medium
+- id: mymeridian-mobile-app
+  name: MyMeridian Mobile App
+  description: React Native mobile app for iOS and Android
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  owner_team: Digital Product Team
+  hosting: saas
+  criticality: critical
+- id: self-service-web-portal
+  name: Self-Service Web Portal
+  description: Next.js web application for self-service customer management
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  owner_team: Digital Product Team
+  hosting: kubernetes
+  criticality: critical
+- id: agent-desktop
+  name: Agent Desktop
+  description: Internal React application for customer support agents
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  owner_team: Customer Support Team
+  hosting: kubernetes
+  criticality: high
+- id: kong-api-gateway
+  name: Kong API Gateway
+  description: API gateway providing headless interface for frontend clients
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: bff-mobile
+  name: "BFF \u2014 Mobile"
+  description: Backend-for-frontend service using Node.js and GraphQL for mobile clients
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: bff-web
+  name: "BFF \u2014 Web"
+  description: Backend-for-frontend service using Node.js and GraphQL for web clients
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: identity-auth-service
+  name: Identity & Auth Service
+  description: Keycloak 24 with custom extensions for subscriber authentication and
+    authorization
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: account-service
+  name: Account Service
+  description: Java 21 Spring Boot service managing subscriber accounts
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: subscription-service
+  name: Subscription Service
+  description: Java 21 Spring Boot service managing subscriptions and plan changes
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: usage-billing-service
+  name: Usage & Billing Service
+  description: Go 1.23 service managing usage tracking and billing
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: notification-service
+  name: Notification Service
+  description: Python 3.13 FastAPI service for push notifications and alerts
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: offer-personalisation-engine
+  name: Offer & Personalisation Engine
+  description: ML-backed Python 3.13 service delivering personalised offers
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: loyalty-service
+  name: Loyalty Service
+  description: Node.js service managing loyalty programs and rewards
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: medium
+- id: support-ticket-service
+  name: Support Ticket Service
+  description: Java 21 Spring Boot service managing customer support tickets
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: gnmi-collector
+  name: gNMI Collector
+  description: Collects gNMI streaming telemetry from Nokia/Ericsson RAN equipment
+    via DaemonSet per site
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: snmp-gateway
+  name: SNMP Gateway
+  description: Polls legacy SNMP MIBs from core routers; migrating to gNMI by Q4 2026
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: retiring
+  hosting: kubernetes
+  criticality: high
+- id: syslog-aggregator
+  name: Syslog Aggregator
+  description: Aggregates syslog from all network elements using Vector
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: kafka-telemetry-fanout
+  name: Kafka Telemetry Fanout
+  description: Distributes telemetry to downstream consumers via Kafka topics
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: schema-registry
+  name: Schema Registry
+  description: Manages Avro schemas for all telemetry types using Confluent Schema
+    Registry
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: fault-correlation-engine
+  name: Fault Correlation Engine
+  description: Apache Flink-based correlation engine that joins faults with topology
+    graph to determine blast radius
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: alarm-management-service
+  name: Alarm Management Service
+  description: Java/Spring Boot service for creating and managing alarm records in
+    PostgreSQL
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: incident-auto-classification
+  name: Incident Auto-Classification
+  description: ML-based Python service for automatic incident severity and type classification
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: noc-dashboard
+  name: NOC Dashboard
+  description: React/Grafana-based unified dashboard for NOC engineers with real-time
+    alert feed
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: on-call-routing-service
+  name: On-Call Routing Service
+  description: Go-based service that pages NOC engineers via PagerDuty when incidents
+    occur
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: pagerduty-integration
+  name: PagerDuty Integration
+  description: SaaS integration for incident creation and escalation via PagerDuty
+    Events API v2
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: saas
+  criticality: high
+- id: kpi-aggregation-service
+  name: KPI Aggregation Service
+  description: Apache Flink service for 15-minute KPI aggregation across network elements
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: time-series-store
+  name: Time-Series Store
+  description: VictoriaMetrics-based time-series database for real-time metrics storage
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: long-term-analytics-store
+  name: Long-Term Analytics Store
+  description: AWS-managed ClickHouse for columnar analytics with 13-month telemetry
+    retention
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: managed-service
+  criticality: high
+- id: performance-dashboard
+  name: Performance Dashboard
+  description: Grafana-based dashboard for network performance visualization and KPI
+    analysis
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: sla-compliance-reporter
+  name: SLA Compliance Reporter
+  description: Python service for calculating and reporting SLA breach events to Revenue
+    & Billing
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: anomaly-detection-engine
+  name: Anomaly Detection Engine
+  description: ML-based service using Prophet and LSTM for network anomaly detection
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: medium
+- id: network-config-repository
+  name: Network Config Repository
+  description: Self-hosted GitLab repository for version-controlled network configurations
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: config-deployment-orchestrator
+  name: Config Deployment Orchestrator
+  description: Python/Ansible-based orchestrator triggered by ArgoCD for configuration
+    deployment to network elements
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: config-compliance-scanner
+  name: Config Compliance Scanner
+  description: Go-based service for post-deployment configuration compliance validation
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: change-management-api
+  name: Change Management API
+  description: Java/Spring Boot API for network engineers to raise and track configuration
+    change requests
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: rollback-automation
+  name: Rollback Automation
+  description: Go-based service for automated configuration rollback on deployment
+    failures
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: critical
+- id: field-engineer-mobile-app
+  name: Field Engineer Mobile App
+  description: React Native iOS/Android app for field engineers to access site diagnostics
+    and work orders
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: saas
+  criticality: high
+- id: field-api-gateway
+  name: Field API Gateway
+  description: Kong Gateway providing API access to field operations services
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: site-diagnostics-service
+  name: Site Diagnostics Service
+  description: Go-based service providing detailed diagnostics for individual network
+    sites
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+- id: work-order-service
+  name: Work Order Service
+  description: Java/Spring Boot service for managing work orders synced with ServiceNow
+  capability_ids: []
+  technology_stack: []
+  deployment: cloud-native
+  status: active
+  hosting: kubernetes
+  criticality: high
+standards:
+- id: event-driven-architecture-pattern
+  name: Event-Driven Architecture Pattern
+  category: architecture
+  status: adopt
+  rationale: Decouples 23 point-to-point integrations, enables real-time fault correlation,
+    supports event replay for audit and incident investigation, foundation for real-time
+    analytics and ML pipelines
+  alternatives: []
+- id: avro-protobuf-schema-enforcement
+  name: Avro/Protobuf Schema Enforcement
+  category: data
+  status: adopt
+  rationale: Ensure schema consistency across Kafka topics via Confluent Schema Registry
+  alternatives: []
+- id: data-product-output-ports
+  name: Data Product Output Ports
+  category: data
+  status: adopt
+  rationale: All products must expose at minimum a SQL port and a streaming port via
+    Kafka for standardised data access
+  alternatives: []
+- id: data-product-sla-tiers
+  name: Data Product SLA Tiers
+  category: data
+  status: adopt
+  rationale: Gold (< 5 min latency, 99.9% SLA), Silver (< 1 hour), Bronze (daily batch)
+    for quality assurance
+  alternatives: []
+- id: data-product-quality-checks
+  name: Data Product Quality Checks
+  category: data
+  status: adopt
+  rationale: Great Expectations checks mandatory before promotion to Silver/Gold tier
+  alternatives: []
+- id: kubernetes
+  name: Kubernetes
+  category: compute-platform
+  status: adopt
+  rationale: Single deployment model across environments, standardised observability,
+    uniform security posture management
+  alternatives: []
+- id: containerd
+  name: containerd
+  category: container-runtime
+  status: adopt
+  rationale: Standardised container runtime across all Kubernetes clusters
+  alternatives: []
+- id: cilium
+  name: Cilium
+  category: networking
+  status: adopt
+  rationale: eBPF-based networking, replaces kube-proxy for improved performance
+  alternatives: []
+- id: istio
+  name: Istio
+  category: service-mesh
+  status: adopt
+  rationale: mTLS between all services for security and observability
+  alternatives: []
+- id: opentelemetry
+  name: OpenTelemetry
+  category: observability
+  status: adopt
+  rationale: Standardised observability collection and correlation
+  alternatives: []
+- id: grafana
+  name: Grafana
+  category: observability
+  status: adopt
+  rationale: Unified observability platform replacing Datadog and CloudWatch
+  alternatives: []
+- id: prometheus
+  name: Prometheus
+  category: metrics
+  status: adopt
+  rationale: Standardised metrics collection across all clusters
+  alternatives: []
+- id: loki
+  name: Loki
+  category: logging
+  status: adopt
+  rationale: Log aggregation as part of Grafana stack
+  alternatives: []
+- id: tempo
+  name: Tempo
+  category: tracing
+  status: adopt
+  rationale: Distributed tracing as part of Grafana stack
+  alternatives: []
+- id: argocd
+  name: ArgoCD
+  category: gitops
+  status: adopt
+  rationale: GitOps deployment automation, eliminates manual kubectl in production
+  alternatives: []
+- id: opa-gatekeeper
+  name: OPA/Gatekeeper
+  category: policy-enforcement
+  status: adopt
+  rationale: Uniform policy enforcement across all Kubernetes clusters
+  alternatives: []
+- id: hashicorp-vault
+  name: HashiCorp Vault
+  category: secrets-management
+  status: adopt
+  rationale: Centralised secrets management with Kubernetes auth backend
+  alternatives: []
+- id: harbor
+  name: Harbor
+  category: container-registry
+  status: adopt
+  rationale: On-premise container registry for all clusters
+  alternatives: []
+- id: helm
+  name: Helm
+  category: kubernetes-package-manager
+  status: adopt
+  rationale: Kubernetes package management standard
+  alternatives: []
+- id: terraform
+  name: Terraform
+  category: infrastructure-provisioning
+  status: adopt
+  rationale: Infrastructure as code for all provisioning
+  alternatives: []
+- id: kafka
+  name: Kafka
+  category: event-streaming
+  status: adopt
+  rationale: Event streaming standard deployed on Kubernetes
+  alternatives: []
+- id: github-actions
+  name: GitHub Actions
+  category: ci-cd
+  status: adopt
+  rationale: Replaces Jenkins for CI/CD pipeline automation
+  alternatives: []
+- id: vmware-vsphere
+  name: VMware vSphere
+  category: compute-platform
+  status: hold
+  rationale: Legacy platform being phased out by Q3 2026
+  alternatives: []
+- id: docker-swarm
+  name: Docker Swarm
+  category: orchestration
+  status: hold
+  rationale: Replaced by Kubernetes standardisation
+  alternatives: []
+- id: jenkins
+  name: Jenkins
+  category: ci-cd
+  status: hold
+  rationale: Replaced by GitHub Actions and ArgoCD
+  alternatives: []
+- id: datadog
+  name: Datadog
+  category: observability
+  status: hold
+  rationale: Replaced by Grafana stack
+  alternatives: []
+- id: kong-gateway
+  name: Kong Gateway
+  category: API Gateway
+  status: adopt
+  rationale: Unified API gateway for all external-facing APIs with enterprise authentication,
+    rate limiting, observability, and developer portal capabilities. Resolves Axway
+    EOL risk and vendor lock-in concerns.
+  alternatives: []
+- id: oauth-2-0-pkce
+  name: OAuth 2.0 PKCE
+  category: Authentication
+  status: adopt
+  rationale: Public API authentication standard for customer-facing mobile app and
+    self-service portal
+  alternatives: []
+- id: mtls
+  name: mTLS
+  category: Authentication
+  status: adopt
+  rationale: Partner API authentication standard within Kong Gateway
+  alternatives: []
+- id: opentelemetry-29
+  name: OpenTelemetry
+  category: Observability
+  status: adopt
+  rationale: Kong metrics export standard aligned with ADR-003 and organizational
+    observability strategy
+  alternatives: []
+- id: kong-api-gateway
+  name: Kong API Gateway
+  category: api-management
+  status: adopt
+  rationale: Per ADR-004; headless API-first platform pattern
+  alternatives: []
+- id: kubernetes-31
+  name: Kubernetes
+  category: container-orchestration
+  status: adopt
+  rationale: Per ADR-003; standard deployment platform for backend services
+  alternatives: []
+- id: kafka-32
+  name: Kafka
+  category: event-streaming
+  status: adopt
+  rationale: Per ADR-001; event bus for real-time integrations
+  alternatives: []
+- id: react-native
+  name: React Native
+  category: mobile-framework
+  status: adopt
+  rationale: Standard mobile framework for iOS and Android
+  alternatives: []
+- id: next-js
+  name: Next.js
+  category: web-framework
+  status: adopt
+  rationale: Standard web framework for self-service portal
+  alternatives: []
+- id: keycloak
+  name: Keycloak
+  category: identity-management
+  status: trial
+  rationale: Replacing legacy Amdocs IdP with open-source solution
+  alternatives: []
+- id: graphql
+  name: GraphQL
+  category: api-query-language
+  status: trial
+  rationale: Evaluating for BFF layer; 12-month evaluation before Adopt
+  alternatives: []
+- id: mongodb-atlas
+  name: MongoDB Atlas
+  category: database
+  status: assess
+  rationale: Assessing for offer catalogue use case only
+  alternatives: []
+- id: grpc
+  name: gRPC
+  category: rpc-framework
+  status: assess
+  rationale: Evaluating for internal service-to-service communication
+  alternatives: []
+- id: apache-kafka
+  name: Apache Kafka
+  category: messaging
+  status: adopt
+  rationale: Event-driven integration backbone per ADR-001; telemetry fanout and inter-service
+    communication
+  alternatives: []
+- id: apache-flink
+  name: Apache Flink
+  category: stream-processing
+  status: adopt
+  rationale: Standard stream processing engine for real-time KPI aggregation and fault
+    correlation
+  alternatives: []
+- id: kubernetes-k3s
+  name: Kubernetes / K3s
+  category: container-orchestration
+  status: adopt
+  rationale: Platform standard per ADR-003; deployment target for core services and
+    edge agents
+  alternatives: []
+- id: victoriametrics
+  name: VictoriaMetrics
+  category: time-series-database
+  status: adopt
+  rationale: Replaces InfluxDB with 2x lower cost; metrics storage standard for NOP
+  alternatives: []
+- id: clickhouse
+  name: ClickHouse
+  category: analytics-database
+  status: adopt
+  rationale: Columnar analytics engine capable of petabyte-scale historical telemetry
+    analysis
+  alternatives: []
+- id: grafana-44
+  name: Grafana
+  category: observability
+  status: adopt
+  rationale: Unified observability and NOC dashboard platform for all network visualizations
+  alternatives: []
+- id: gnmi-streaming
+  name: gNMI streaming
+  category: telemetry-protocol
+  status: adopt
+  rationale: Modern network telemetry standard replacing legacy SNMP; required for
+    RAN equipment
+  alternatives: []
+- id: vector
+  name: Vector
+  category: log-aggregation
+  status: trial
+  rationale: Evaluating replacement for Fluentd with lower resource footprint
+  alternatives: []
+- id: snmp
+  name: SNMP
+  category: telemetry-protocol
+  status: hold
+  rationale: Legacy protocol; scheduled migration to gNMI by Q4 2026 for 340 Cisco
+    routers
+  alternatives: []
+- id: ansible
+  name: Ansible
+  category: infrastructure-automation
+  status: assess
+  rationale: Evaluating Terraform and Crossplane for infrastructure-as-code; currently
+    used for config deployment
+  alternatives: []

@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "strata-cli"
+version = "0.2.0"
+description = "Architecture as a Service — design, govern, and automate enterprise, data, and solution architecture"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Strata CLI" }]
+license = { text = "MIT" }
+keywords = ["architecture", "enterprise", "cli", "ai", "data-mesh"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "typer>=0.12.3",
+  "rich>=13.7.1",
+  "pydantic>=2.8.2",
+  "PyYAML>=6.0.1",
+  "httpx>=0.27.0",
+  "textual>=0.65.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+]
+# Live folder watching (OS-native: FSEvents on macOS, inotify on Linux)
+watch = [
+  "watchdog>=4.0.0",
+]
+# PostgreSQL + pgvector persistence and semantic search
+db = [
+  "psycopg2-binary>=2.9",
+  "pgvector>=0.3.0",
+]
+# Everything bundled
+full = [
+  "watchdog>=4.0.0",
+  "psycopg2-binary>=2.9",
+  "pgvector>=0.3.0",
+]
+
+[project.scripts]
+strata = "strata.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "-q"

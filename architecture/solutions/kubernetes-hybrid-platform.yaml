@@ -1,0 +1,11 @@
+id: kubernetes-hybrid-platform
+name: Kubernetes Hybrid Platform
+description: Standardised Kubernetes compute platform deployed across on-premise (RKE2),
+  AWS (EKS), Azure (AKS), and edge (K3s) with unified observability, security, and
+  GitOps
+status: draft
+business_capability_ids: []
+components: []
+adrs: []
+deployment_target: hybrid
+pattern: microservices

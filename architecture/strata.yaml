@@ -1,0 +1,8 @@
+name: AcmeCorp
+description: Cloud-native retail platform
+cloud_provider: hybrid
+environment: production
+version: '1'
+watch_folders:
+- /Users/jasperpoc/Documents/projects/telecom_example/adrs
+- /Users/jasperpoc/Documents/projects/telecom_example/hld

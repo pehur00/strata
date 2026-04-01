@@ -1,0 +1,3112 @@
+- id: stg-001
+  entity: solution
+  fields:
+    name: Event-Driven Core Network Operations
+    description: Event-driven architecture using Apache Kafka as central event streaming
+      backbone for real-time network operations and business event flows across Order
+      Management, Network Provisioning, Fault Management, and Billing domains
+    pattern: event-driven
+    deployment_target: on-premise
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-002
+  entity: application
+  fields:
+    name: Apache Kafka
+    hosting: kubernetes
+    criticality: critical
+    status: planned
+    description: Event backbone for core network operations, Apache Kafka 3.8 on Kubernetes
+      with 7-day event retention
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-003
+  entity: application
+  fields:
+    name: Confluent Schema Registry
+    hosting: kubernetes
+    criticality: high
+    status: planned
+    description: Schema enforcement for Avro/Protobuf schemas per Kafka topic
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-004
+  entity: application
+  fields:
+    name: Kafka Connect
+    hosting: kubernetes
+    criticality: high
+    status: planned
+    description: CDC from Oracle BSS and legacy OSS databases during transition to
+      event-driven architecture
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-005
+  entity: application
+  fields:
+    name: KSQL / Flink
+    hosting: kubernetes
+    criticality: high
+    status: planned
+    description: Stream processing for complex event patterns including churn signals
+      and fraud detection
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-006
+  entity: domain
+  fields:
+    name: Order Management
+    storage_pattern: streaming
+    description: Domain responsible for order provisioning with improved latency through
+      event-driven architecture
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-007
+  entity: domain
+  fields:
+    name: Network Provisioning
+    storage_pattern: streaming
+    description: Domain handling network provisioning with real-time event processing
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-008
+  entity: domain
+  fields:
+    name: Fault Management
+    storage_pattern: streaming
+    description: Domain for network fault event processing with real-time correlation
+      replacing polling
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-009
+  entity: domain
+  fields:
+    name: Billing
+    storage_pattern: streaming
+    description: Domain for billing operations integrated via event-driven architecture
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-010
+  entity: standard
+  fields:
+    name: Event-Driven Architecture Pattern
+    category: architecture
+    status: adopt
+    rationale: Decouples 23 point-to-point integrations, enables real-time fault correlation,
+      supports event replay for audit and incident investigation, foundation for real-time
+      analytics and ML pipelines
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-011
+  entity: standard
+  fields:
+    name: Avro/Protobuf Schema Enforcement
+    category: data
+    status: adopt
+    rationale: Ensure schema consistency across Kafka topics via Confluent Schema
+      Registry
+  source: ADR-001-event-driven-core-network.md
+  status: accepted
+- id: stg-012
+  entity: solution
+  fields:
+    name: Data Mesh for Analytics and AI/ML Platform
+    description: Adopt data mesh architecture with four initial data domains aligned
+      to business capability structure. Each domain team owns, operates, and publishes
+      data products via standardised data product interface.
+    pattern: data-mesh
+    deployment_target: multi-cloud
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-013
+  entity: domain
+  fields:
+    name: Network Domain
+    description: Network topology, cell performance, fault events, spectrum utilisation
+    storage_pattern: mixed
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-014
+  entity: domain
+  fields:
+    name: Customer Domain
+    description: Subscriber profiles, contracts, interactions, churn signals
+    storage_pattern: mixed
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-015
+  entity: domain
+  fields:
+    name: Revenue Domain
+    description: Billing records, payment transactions, product catalogue, invoicing
+    storage_pattern: mixed
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-016
+  entity: domain
+  fields:
+    name: Product & IoT Domain
+    description: Device registry, SIM lifecycle, IoT telemetry, service catalogue
+    storage_pattern: mixed
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-017
+  entity: product
+  fields:
+    name: Network Events Feed
+    domain_id: network-domain
+    output_port: streaming
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-018
+  entity: product
+  fields:
+    name: Network Topology Snapshot
+    domain_id: network-domain
+    output_port: sql
+    sla_tier: silver
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-019
+  entity: product
+  fields:
+    name: Subscriber 360
+    domain_id: customer-domain
+    output_port: sql
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-020
+  entity: product
+  fields:
+    name: Churn Signals Feed
+    domain_id: customer-domain
+    output_port: streaming
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-021
+  entity: product
+  fields:
+    name: Billing Ledger
+    domain_id: revenue-domain
+    output_port: sql
+    sla_tier: silver
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-022
+  entity: product
+  fields:
+    name: Revenue Summary
+    domain_id: revenue-domain
+    output_port: sql
+    sla_tier: bronze
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-023
+  entity: product
+  fields:
+    name: SIM Lifecycle Events
+    domain_id: product-and-iot-domain
+    output_port: streaming
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-024
+  entity: product
+  fields:
+    name: Device Registry
+    domain_id: product-and-iot-domain
+    output_port: sql
+    sla_tier: silver
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-025
+  entity: standard
+  fields:
+    name: Data Product Output Ports
+    category: data
+    status: adopt
+    rationale: All products must expose at minimum a SQL port and a streaming port
+      via Kafka for standardised data access
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-026
+  entity: standard
+  fields:
+    name: Data Product SLA Tiers
+    category: data
+    status: adopt
+    rationale: Gold (< 5 min latency, 99.9% SLA), Silver (< 1 hour), Bronze (daily
+      batch) for quality assurance
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-027
+  entity: standard
+  fields:
+    name: Data Product Quality Checks
+    category: data
+    status: adopt
+    rationale: Great Expectations checks mandatory before promotion to Silver/Gold
+      tier
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-028
+  entity: flow
+  fields:
+    name: Data Product Distribution
+    source_domain: network-domain
+    target_domain: customer-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-029
+  entity: flow
+  fields:
+    name: Data Product Distribution
+    source_domain: network-domain
+    target_domain: revenue-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-030
+  entity: flow
+  fields:
+    name: Data Product Distribution
+    source_domain: customer-domain
+    target_domain: revenue-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: accepted
+- id: stg-031
+  entity: standard
+  fields:
+    name: Kubernetes
+    category: compute-platform
+    status: adopt
+    rationale: Single deployment model across environments, standardised observability,
+      uniform security posture management
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-032
+  entity: standard
+  fields:
+    name: containerd
+    category: container-runtime
+    status: adopt
+    rationale: Standardised container runtime across all Kubernetes clusters
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-033
+  entity: standard
+  fields:
+    name: Cilium
+    category: networking
+    status: adopt
+    rationale: eBPF-based networking, replaces kube-proxy for improved performance
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-034
+  entity: standard
+  fields:
+    name: Istio
+    category: service-mesh
+    status: adopt
+    rationale: mTLS between all services for security and observability
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-035
+  entity: standard
+  fields:
+    name: OpenTelemetry
+    category: observability
+    status: adopt
+    rationale: Standardised observability collection and correlation
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-036
+  entity: standard
+  fields:
+    name: Grafana
+    category: observability
+    status: adopt
+    rationale: Unified observability platform replacing Datadog and CloudWatch
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-037
+  entity: standard
+  fields:
+    name: Prometheus
+    category: metrics
+    status: adopt
+    rationale: Standardised metrics collection across all clusters
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-038
+  entity: standard
+  fields:
+    name: Loki
+    category: logging
+    status: adopt
+    rationale: Log aggregation as part of Grafana stack
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-039
+  entity: standard
+  fields:
+    name: Tempo
+    category: tracing
+    status: adopt
+    rationale: Distributed tracing as part of Grafana stack
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-040
+  entity: standard
+  fields:
+    name: ArgoCD
+    category: gitops
+    status: adopt
+    rationale: GitOps deployment automation, eliminates manual kubectl in production
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-041
+  entity: standard
+  fields:
+    name: OPA/Gatekeeper
+    category: policy-enforcement
+    status: adopt
+    rationale: Uniform policy enforcement across all Kubernetes clusters
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-042
+  entity: standard
+  fields:
+    name: HashiCorp Vault
+    category: secrets-management
+    status: adopt
+    rationale: Centralised secrets management with Kubernetes auth backend
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-043
+  entity: standard
+  fields:
+    name: Harbor
+    category: container-registry
+    status: adopt
+    rationale: On-premise container registry for all clusters
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-044
+  entity: standard
+  fields:
+    name: Helm
+    category: kubernetes-package-manager
+    status: adopt
+    rationale: Kubernetes package management standard
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-045
+  entity: standard
+  fields:
+    name: Terraform
+    category: infrastructure-provisioning
+    status: adopt
+    rationale: Infrastructure as code for all provisioning
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-046
+  entity: standard
+  fields:
+    name: Kafka
+    category: event-streaming
+    status: adopt
+    rationale: Event streaming standard deployed on Kubernetes
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-047
+  entity: standard
+  fields:
+    name: GitHub Actions
+    category: ci-cd
+    status: adopt
+    rationale: Replaces Jenkins for CI/CD pipeline automation
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-048
+  entity: standard
+  fields:
+    name: VMware vSphere
+    category: compute-platform
+    status: hold
+    rationale: Legacy platform being phased out by Q3 2026
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-049
+  entity: standard
+  fields:
+    name: Docker Swarm
+    category: orchestration
+    status: hold
+    rationale: Replaced by Kubernetes standardisation
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-050
+  entity: standard
+  fields:
+    name: Jenkins
+    category: ci-cd
+    status: hold
+    rationale: Replaced by GitHub Actions and ArgoCD
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-051
+  entity: standard
+  fields:
+    name: Datadog
+    category: observability
+    status: hold
+    rationale: Replaced by Grafana stack
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-052
+  entity: solution
+  fields:
+    name: Kubernetes Hybrid Platform
+    description: Standardised Kubernetes compute platform deployed across on-premise
+      (RKE2), AWS (EKS), Azure (AKS), and edge (K3s) with unified observability, security,
+      and GitOps
+    pattern: microservices
+    deployment_target: hybrid
+  source: ADR-003-kubernetes-platform.md
+  status: accepted
+- id: stg-053
+  entity: application
+  fields:
+    name: Kong Gateway
+    hosting: kubernetes
+    criticality: high
+    owner: Platform Engineering
+    status: planned
+    description: Unified API gateway for internal, partner, and public APIs with authentication,
+      rate limiting, observability, and developer portal capabilities
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-054
+  entity: application
+  fields:
+    name: Kong Konnect
+    hosting: saas
+    criticality: high
+    owner: Platform Engineering
+    status: planned
+    description: SaaS control plane for Kong Gateway, avoiding self-managed Postgres
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-055
+  entity: application
+  fields:
+    name: Axway API Gateway
+    hosting: managed-service
+    criticality: high
+    owner: Integration Architecture
+    status: retiring
+    description: Legacy API gateway for partner APIs, version 7.7, end-of-life Q2
+      2026
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-056
+  entity: application
+  fields:
+    name: AWS API Gateway
+    hosting: saas
+    criticality: medium
+    status: retiring
+    description: Per-service public API gateway with inconsistent configuration, to
+      be consolidated to Kong
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-057
+  entity: capability
+  fields:
+    name: API Authentication
+    domain: integration
+    level: core
+    owner: Platform Engineering
+    description: OAuth 2.0 (PKCE for public), mTLS (partners), API keys (legacy) authentication
+      via Kong Gateway
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-058
+  entity: capability
+  fields:
+    name: API Rate Limiting
+    domain: integration
+    level: core
+    owner: Platform Engineering
+    description: Redis-backed sliding window rate limiting configurable per consumer/tier
+      via Kong Gateway
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-059
+  entity: capability
+  fields:
+    name: API Observability
+    domain: integration
+    level: core
+    owner: Platform Engineering
+    description: Kong metrics exported to OpenTelemetry and Grafana for API monitoring
+      and analytics
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-060
+  entity: capability
+  fields:
+    name: API Developer Portal
+    domain: integration
+    level: supporting
+    owner: Platform Engineering
+    description: Kong Developer Portal for partner API discovery, onboarding, and
+      self-service capability
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-061
+  entity: capability
+  fields:
+    name: API Monetisation
+    domain: integration
+    level: supporting
+    owner: Platform Engineering
+    description: Foundation for partner billing by API consumption via Kong Gateway
+      rate limiting and analytics
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-062
+  entity: standard
+  fields:
+    name: Kong Gateway
+    category: API Gateway
+    status: adopt
+    rationale: Unified API gateway for all external-facing APIs with enterprise authentication,
+      rate limiting, observability, and developer portal capabilities. Resolves Axway
+      EOL risk and vendor lock-in concerns.
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-063
+  entity: standard
+  fields:
+    name: OAuth 2.0 PKCE
+    category: Authentication
+    status: adopt
+    rationale: Public API authentication standard for customer-facing mobile app and
+      self-service portal
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-064
+  entity: standard
+  fields:
+    name: mTLS
+    category: Authentication
+    status: adopt
+    rationale: Partner API authentication standard within Kong Gateway
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-065
+  entity: standard
+  fields:
+    name: OpenTelemetry
+    category: Observability
+    status: adopt
+    rationale: Kong metrics export standard aligned with ADR-003 and organizational
+      observability strategy
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-066
+  entity: solution
+  fields:
+    name: Unified API Gateway Architecture
+    description: Enterprise API gateway solution consolidating internal, partner,
+      and public API traffic through Kong Gateway with unified authentication, rate
+      limiting, observability, and developer portal
+    pattern: api-gateway
+    deployment_target: multi-cloud
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-067
+  entity: flow
+  fields:
+    name: Partner API Traffic
+    source_domain: partner-ecosystem
+    target_domain: api-integration
+    mechanism: api
+    classification: internal
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-068
+  entity: flow
+  fields:
+    name: Public API Traffic
+    source_domain: digital-platform
+    target_domain: api-integration
+    mechanism: api
+    classification: public
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-069
+  entity: flow
+  fields:
+    name: Kafka Webhooks via Kong
+    source_domain: event-platform
+    target_domain: api-integration
+    mechanism: streaming
+    classification: internal
+  source: ADR-004-api-gateway-strategy.md
+  status: accepted
+- id: stg-070
+  entity: capability
+  fields:
+    name: Self-Service Account Management
+    domain: Customer Experience
+    level: core
+    description: Enables subscribers to manage account settings independently
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-071
+  entity: capability
+  fields:
+    name: Subscription & Plan Management
+    domain: Customer Experience
+    level: core
+    description: Allows subscribers to view, change, and manage subscription plans
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-072
+  entity: capability
+  fields:
+    name: Real-Time Usage & Spend Visibility
+    domain: Customer Experience
+    level: core
+    description: Provides real-time visibility into usage and spending
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-073
+  entity: capability
+  fields:
+    name: Personalised Offer Delivery
+    domain: Marketing & Sales
+    level: strategic
+    description: Delivers personalised offers to subscribers
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-074
+  entity: capability
+  fields:
+    name: Digital Customer Onboarding
+    domain: Customer Experience
+    level: core
+    description: Enables streamlined digital onboarding for new subscribers
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-075
+  entity: capability
+  fields:
+    name: Multi-Channel Support
+    domain: Customer Support
+    level: supporting
+    description: Provides customer support across chat, email, and app channels
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-076
+  entity: capability
+  fields:
+    name: Loyalty & Rewards Management
+    domain: Marketing & Sales
+    level: supporting
+    description: Manages loyalty programs and rewards for subscribers
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-077
+  entity: application
+  fields:
+    name: MyMeridian Mobile App
+    hosting: saas
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: React Native mobile app for iOS and Android
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-078
+  entity: application
+  fields:
+    name: Self-Service Web Portal
+    hosting: kubernetes
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: Next.js web application for self-service customer management
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-079
+  entity: application
+  fields:
+    name: Agent Desktop
+    hosting: kubernetes
+    criticality: high
+    owner: Customer Support Team
+    status: active
+    description: Internal React application for customer support agents
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-080
+  entity: application
+  fields:
+    name: Kong API Gateway
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: API gateway providing headless interface for frontend clients
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-081
+  entity: application
+  fields:
+    name: "BFF \u2014 Mobile"
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Backend-for-frontend service using Node.js and GraphQL for mobile
+      clients
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-082
+  entity: application
+  fields:
+    name: "BFF \u2014 Web"
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Backend-for-frontend service using Node.js and GraphQL for web clients
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-083
+  entity: application
+  fields:
+    name: Identity & Auth Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Keycloak 24 with custom extensions for subscriber authentication
+      and authorization
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-084
+  entity: application
+  fields:
+    name: Account Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Java 21 Spring Boot service managing subscriber accounts
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-085
+  entity: application
+  fields:
+    name: Subscription Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Java 21 Spring Boot service managing subscriptions and plan changes
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-086
+  entity: application
+  fields:
+    name: Usage & Billing Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Go 1.23 service managing usage tracking and billing
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-087
+  entity: application
+  fields:
+    name: Notification Service
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Python 3.13 FastAPI service for push notifications and alerts
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-088
+  entity: application
+  fields:
+    name: Offer & Personalisation Engine
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: ML-backed Python 3.13 service delivering personalised offers
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-089
+  entity: application
+  fields:
+    name: Loyalty Service
+    hosting: kubernetes
+    criticality: medium
+    status: active
+    description: Node.js service managing loyalty programs and rewards
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-090
+  entity: application
+  fields:
+    name: Support Ticket Service
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Java 21 Spring Boot service managing customer support tickets
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-091
+  entity: standard
+  fields:
+    name: Kong API Gateway
+    category: api-management
+    status: adopt
+    rationale: Per ADR-004; headless API-first platform pattern
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-092
+  entity: standard
+  fields:
+    name: Kubernetes
+    category: container-orchestration
+    status: adopt
+    rationale: Per ADR-003; standard deployment platform for backend services
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-093
+  entity: standard
+  fields:
+    name: Kafka
+    category: event-streaming
+    status: adopt
+    rationale: Per ADR-001; event bus for real-time integrations
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-094
+  entity: standard
+  fields:
+    name: React Native
+    category: mobile-framework
+    status: adopt
+    rationale: Standard mobile framework for iOS and Android
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-095
+  entity: standard
+  fields:
+    name: Next.js
+    category: web-framework
+    status: adopt
+    rationale: Standard web framework for self-service portal
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-096
+  entity: standard
+  fields:
+    name: Keycloak
+    category: identity-management
+    status: trial
+    rationale: Replacing legacy Amdocs IdP with open-source solution
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-097
+  entity: standard
+  fields:
+    name: GraphQL
+    category: api-query-language
+    status: trial
+    rationale: Evaluating for BFF layer; 12-month evaluation before Adopt
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-098
+  entity: standard
+  fields:
+    name: MongoDB Atlas
+    category: database
+    status: assess
+    rationale: Assessing for offer catalogue use case only
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-099
+  entity: standard
+  fields:
+    name: gRPC
+    category: rpc-framework
+    status: assess
+    rationale: Evaluating for internal service-to-service communication
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-100
+  entity: domain
+  fields:
+    name: Customer
+    storage_pattern: operational
+    description: Subscriber profiles, accounts, subscriptions, usage data, and session
+      management
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-101
+  entity: domain
+  fields:
+    name: Network
+    storage_pattern: streaming
+    description: Network usage events and provisioning integration points
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-102
+  entity: domain
+  fields:
+    name: Product & IoT
+    storage_pattern: operational
+    description: Offer catalogue and product management
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-103
+  entity: flow
+  fields:
+    name: Real-Time Usage Update
+    source_domain: Network
+    target_domain: Customer
+    mechanism: streaming
+    classification: internal
+    description: Network UPF emits usage events via Kafka to trigger notifications
+      and balance updates
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-104
+  entity: flow
+  fields:
+    name: Plan Change
+    source_domain: Customer
+    target_domain: Customer
+    mechanism: api
+    classification: internal
+    description: Subscriber initiates plan change via portal; triggers contract update
+      and billing adjustment
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-105
+  entity: flow
+  fields:
+    name: Network Provisioning Integration
+    source_domain: Customer
+    target_domain: Network
+    mechanism: streaming
+    classification: internal
+    description: Plan changes published to Kafka for network provisioning service
+      consumption
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-106
+  entity: flow
+  fields:
+    name: BSS Billing Integration
+    source_domain: Customer
+    target_domain: Product & IoT
+    mechanism: api
+    classification: internal
+    description: Usage and billing data synced via REST API to BSS Billing Core
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-107
+  entity: flow
+  fields:
+    name: CRM Salesforce Integration
+    source_domain: Customer
+    target_domain: Customer
+    mechanism: cdc
+    classification: internal
+    description: Customer data changes captured via Kafka Connect CDC to Salesforce
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-108
+  entity: flow
+  fields:
+    name: Fraud Management Integration
+    source_domain: Customer
+    target_domain: Customer
+    mechanism: streaming
+    classification: confidential
+    description: Suspicious activity events published to Kafka for fraud detection
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-109
+  entity: flow
+  fields:
+    name: DataHub Metadata Push
+    source_domain: Customer
+    target_domain: Product & IoT
+    mechanism: api
+    classification: internal
+    description: Metadata pushed to DataHub catalogue via REST API
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-110
+  entity: solution
+  fields:
+    name: Meridian Telecom Customer Experience Platform
+    description: Unified digital platform serving 14M subscribers via mobile app,
+      web portal, and APIs; replaces legacy Amdocs DigitalEx with real-time personalisation
+      and headless API model
+    pattern: microservices
+    deployment_target: aws
+  source: hld-customer-experience-platform.md
+  status: accepted
+- id: stg-111
+  entity: capability
+  fields:
+    name: Network Fault Management
+    domain: Network Operations
+    level: core
+    description: Detection, correlation, and management of network faults across 4,800
+      cell sites
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-112
+  entity: capability
+  fields:
+    name: Network Performance Management
+    domain: Network Operations
+    level: core
+    description: Real-time and historical performance monitoring of network KPIs and
+      SLAs
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-113
+  entity: capability
+  fields:
+    name: Network Configuration Management
+    domain: Network Operations
+    level: core
+    description: GitOps-based network configuration deployment and compliance management
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-114
+  entity: capability
+  fields:
+    name: Capacity Planning & Forecasting
+    domain: Network Operations
+    level: strategic
+    description: Network capacity utilization analysis and forecasting for capacity
+      planning
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-115
+  entity: capability
+  fields:
+    name: Field Operations Support
+    domain: Network Operations
+    level: supporting
+    description: Mobile app and work order management for field engineers at network
+      sites
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-116
+  entity: capability
+  fields:
+    name: Spectrum Management
+    domain: Network Operations
+    level: core
+    description: Management of spectrum allocation and utilization across 5G network
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-117
+  entity: capability
+  fields:
+    name: Security Operations (Network)
+    domain: Security & Compliance
+    level: core
+    description: Network security event monitoring and compliance posture tracking
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-118
+  entity: application
+  fields:
+    name: gNMI Collector
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Collects gNMI streaming telemetry from Nokia/Ericsson RAN equipment
+      via DaemonSet per site
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-119
+  entity: application
+  fields:
+    name: SNMP Gateway
+    hosting: kubernetes
+    criticality: high
+    status: retiring
+    description: Polls legacy SNMP MIBs from core routers; migrating to gNMI by Q4
+      2026
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-120
+  entity: application
+  fields:
+    name: Syslog Aggregator
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Aggregates syslog from all network elements using Vector
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-121
+  entity: application
+  fields:
+    name: Kafka Telemetry Fanout
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Distributes telemetry to downstream consumers via Kafka topics
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-122
+  entity: application
+  fields:
+    name: Schema Registry
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Manages Avro schemas for all telemetry types using Confluent Schema
+      Registry
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-123
+  entity: application
+  fields:
+    name: Fault Correlation Engine
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Apache Flink-based correlation engine that joins faults with topology
+      graph to determine blast radius
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-124
+  entity: application
+  fields:
+    name: Alarm Management Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Java/Spring Boot service for creating and managing alarm records
+      in PostgreSQL
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-125
+  entity: application
+  fields:
+    name: Incident Auto-Classification
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: ML-based Python service for automatic incident severity and type
+      classification
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-126
+  entity: application
+  fields:
+    name: NOC Dashboard
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: React/Grafana-based unified dashboard for NOC engineers with real-time
+      alert feed
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-127
+  entity: application
+  fields:
+    name: On-Call Routing Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Go-based service that pages NOC engineers via PagerDuty when incidents
+      occur
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-128
+  entity: application
+  fields:
+    name: PagerDuty Integration
+    hosting: saas
+    criticality: high
+    status: active
+    description: SaaS integration for incident creation and escalation via PagerDuty
+      Events API v2
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-129
+  entity: application
+  fields:
+    name: KPI Aggregation Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Apache Flink service for 15-minute KPI aggregation across network
+      elements
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-130
+  entity: application
+  fields:
+    name: Time-Series Store
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: VictoriaMetrics-based time-series database for real-time metrics
+      storage
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-131
+  entity: application
+  fields:
+    name: Long-Term Analytics Store
+    hosting: managed-service
+    criticality: high
+    status: active
+    description: AWS-managed ClickHouse for columnar analytics with 13-month telemetry
+      retention
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-132
+  entity: application
+  fields:
+    name: Performance Dashboard
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Grafana-based dashboard for network performance visualization and
+      KPI analysis
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-133
+  entity: application
+  fields:
+    name: SLA Compliance Reporter
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Python service for calculating and reporting SLA breach events to
+      Revenue & Billing
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-134
+  entity: application
+  fields:
+    name: Anomaly Detection Engine
+    hosting: kubernetes
+    criticality: medium
+    status: active
+    description: ML-based service using Prophet and LSTM for network anomaly detection
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-135
+  entity: application
+  fields:
+    name: Network Config Repository
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Self-hosted GitLab repository for version-controlled network configurations
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-136
+  entity: application
+  fields:
+    name: Config Deployment Orchestrator
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Python/Ansible-based orchestrator triggered by ArgoCD for configuration
+      deployment to network elements
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-137
+  entity: application
+  fields:
+    name: Config Compliance Scanner
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Go-based service for post-deployment configuration compliance validation
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-138
+  entity: application
+  fields:
+    name: Change Management API
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Java/Spring Boot API for network engineers to raise and track configuration
+      change requests
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-139
+  entity: application
+  fields:
+    name: Rollback Automation
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Go-based service for automated configuration rollback on deployment
+      failures
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-140
+  entity: application
+  fields:
+    name: Field Engineer Mobile App
+    hosting: saas
+    criticality: high
+    status: active
+    description: React Native iOS/Android app for field engineers to access site diagnostics
+      and work orders
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-141
+  entity: application
+  fields:
+    name: Field API Gateway
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Kong Gateway providing API access to field operations services
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-142
+  entity: application
+  fields:
+    name: Site Diagnostics Service
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Go-based service providing detailed diagnostics for individual network
+      sites
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-143
+  entity: application
+  fields:
+    name: Work Order Service
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Java/Spring Boot service for managing work orders synced with ServiceNow
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-144
+  entity: standard
+  fields:
+    name: Apache Kafka
+    category: messaging
+    status: adopt
+    rationale: Event-driven integration backbone per ADR-001; telemetry fanout and
+      inter-service communication
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-145
+  entity: standard
+  fields:
+    name: Apache Flink
+    category: stream-processing
+    status: adopt
+    rationale: Standard stream processing engine for real-time KPI aggregation and
+      fault correlation
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-146
+  entity: standard
+  fields:
+    name: Kubernetes / K3s
+    category: container-orchestration
+    status: adopt
+    rationale: Platform standard per ADR-003; deployment target for core services
+      and edge agents
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-147
+  entity: standard
+  fields:
+    name: VictoriaMetrics
+    category: time-series-database
+    status: adopt
+    rationale: Replaces InfluxDB with 2x lower cost; metrics storage standard for
+      NOP
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-148
+  entity: standard
+  fields:
+    name: ClickHouse
+    category: analytics-database
+    status: adopt
+    rationale: Columnar analytics engine capable of petabyte-scale historical telemetry
+      analysis
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-149
+  entity: standard
+  fields:
+    name: Grafana
+    category: observability
+    status: adopt
+    rationale: Unified observability and NOC dashboard platform for all network visualizations
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-150
+  entity: standard
+  fields:
+    name: gNMI streaming
+    category: telemetry-protocol
+    status: adopt
+    rationale: Modern network telemetry standard replacing legacy SNMP; required for
+      RAN equipment
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-151
+  entity: standard
+  fields:
+    name: Vector
+    category: log-aggregation
+    status: trial
+    rationale: Evaluating replacement for Fluentd with lower resource footprint
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-152
+  entity: standard
+  fields:
+    name: SNMP
+    category: telemetry-protocol
+    status: hold
+    rationale: Legacy protocol; scheduled migration to gNMI by Q4 2026 for 340 Cisco
+      routers
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-153
+  entity: standard
+  fields:
+    name: Ansible
+    category: infrastructure-automation
+    status: assess
+    rationale: Evaluating Terraform and Crossplane for infrastructure-as-code; currently
+      used for config deployment
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-154
+  entity: domain
+  fields:
+    name: Network Data Domain
+    owner: Network Platform Team
+    storage_pattern: mixed
+    description: Real-time and historical network telemetry, fault events, KPIs, topology,
+      and capacity data
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-155
+  entity: domain
+  fields:
+    name: Security Data Domain
+    owner: Security Operations
+    storage_pattern: mixed
+    description: Network security events, anomalies, and configuration compliance
+      posture data
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-156
+  entity: product
+  fields:
+    name: Network Events Feed
+    domain_id: network-data-domain
+    output_port: streaming
+    sla_tier: gold
+    description: Real-time telemetry and fault events via Kafka
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-157
+  entity: product
+  fields:
+    name: Cell Performance KPIs
+    domain_id: network-data-domain
+    output_port: sql
+    sla_tier: silver
+    description: 15-minute aggregated KPIs per cell site via SQL
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-158
+  entity: product
+  fields:
+    name: Network Topology Graph
+    domain_id: network-data-domain
+    output_port: api
+    sla_tier: silver
+    description: Current network topology with site relationships via SQL and API
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-159
+  entity: product
+  fields:
+    name: Fault History
+    domain_id: network-data-domain
+    output_port: sql
+    sla_tier: bronze
+    description: Historical alarm and incident data in ClickHouse
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-160
+  entity: product
+  fields:
+    name: Capacity Utilisation Report
+    domain_id: network-data-domain
+    output_port: files
+    sla_tier: bronze
+    description: Weekly capacity forecasts per domain
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-161
+  entity: product
+  fields:
+    name: Security Events Stream
+    domain_id: security-data-domain
+    output_port: streaming
+    sla_tier: gold
+    description: Network security events and anomalies via Kafka
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-162
+  entity: product
+  fields:
+    name: Compliance Posture Snapshot
+    domain_id: security-data-domain
+    output_port: files
+    sla_tier: bronze
+    description: Daily configuration compliance state
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-163
+  entity: flow
+  fields:
+    name: Fault Detection and Escalation
+    source_domain: network-data-domain
+    target_domain: network-operations
+    mechanism: streaming
+    classification: internal
+    description: "gNMI telemetry \u2192 Fault Correlation \u2192 Alarm Management\
+      \ \u2192 On-Call Routing \u2192 PagerDuty escalation and NOC Dashboard"
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-164
+  entity: flow
+  fields:
+    name: Fault to Customer Experience Impact
+    source_domain: network-data-domain
+    target_domain: customer-experience-platform
+    mechanism: streaming
+    classification: internal
+    description: Correlated fault events published to CXP for subscriber impact suppression
+      notifications
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-165
+  entity: flow
+  fields:
+    name: SLA Breach Reporting
+    source_domain: network-data-domain
+    target_domain: revenue-and-billing
+    mechanism: streaming
+    classification: internal
+    description: SLA breach events published to Revenue & Billing for penalty calculation
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-166
+  entity: flow
+  fields:
+    name: Configuration Change GitOps
+    source_domain: network-data-domain
+    target_domain: network-operations
+    mechanism: api
+    classification: internal
+    description: "Engineer \u2192 Change API \u2192 GitLab MR \u2192 ArgoCD \u2192\
+      \ Config Orchestrator \u2192 Ansible deployment \u2192 compliance validation"
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-167
+  entity: flow
+  fields:
+    name: Security Events to SIEM
+    source_domain: security-data-domain
+    target_domain: security-operations
+    mechanism: streaming
+    classification: confidential
+    description: Security event anomaly feed published to SIEM via Kafka
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-168
+  entity: solution
+  fields:
+    name: Network Operations Platform
+    description: Cloud-native, event-driven operational intelligence layer for Meridian
+      Telecom 5G network covering 4,800 cell sites, replacing legacy NetCracker OSS
+      v8.2
+    pattern: event-driven
+    deployment_target: hybrid
+  source: hld-network-operations-platform.md
+  status: accepted
+- id: stg-169
+  entity: solution
+  fields:
+    name: event-driven-core-network-operations
+    description: Event-driven architecture using Apache Kafka as the central event
+      streaming backbone for all real-time network operations and business event flows
+      across Order Management, Network Provisioning, Fault Management, and Billing
+      domains
+    pattern: event-driven
+    deployment_target: multi-cloud
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-170
+  entity: standard
+  fields:
+    name: Apache Kafka
+    category: event-streaming
+    status: adopt
+    rationale: Decouples 23 point-to-point integrations into publish/subscribe model,
+      enables real-time fault correlation, supports event replay for audit and incident
+      investigation, and provides foundation for real-time analytics and ML feature
+      pipelines
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-171
+  entity: standard
+  fields:
+    name: Confluent Schema Registry
+    category: event-streaming
+    status: adopt
+    rationale: Enforce Avro/Protobuf schemas per Kafka topic for data consistency
+      and contract management
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-172
+  entity: standard
+  fields:
+    name: Kafka Connect
+    category: event-streaming
+    status: adopt
+    rationale: Enable CDC from Oracle BSS and legacy OSS databases during transition
+      to event-driven architecture
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-173
+  entity: standard
+  fields:
+    name: KSQL / Flink
+    category: stream-processing
+    status: adopt
+    rationale: Stream processing for complex event patterns such as churn signals
+      and fraud detection
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-174
+  entity: flow
+  fields:
+    name: order-management-to-network-provisioning
+    source_domain: order-management
+    target_domain: network-provisioning
+    mechanism: streaming
+    classification: internal
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-175
+  entity: flow
+  fields:
+    name: network-provisioning-to-fault-management
+    source_domain: network-provisioning
+    target_domain: fault-management
+    mechanism: streaming
+    classification: internal
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-176
+  entity: flow
+  fields:
+    name: order-management-to-billing
+    source_domain: order-management
+    target_domain: billing
+    mechanism: streaming
+    classification: internal
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-177
+  entity: flow
+  fields:
+    name: network-operations-to-analytics
+    source_domain: network-domain
+    target_domain: network-data-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-001-event-driven-core-network.md
+  status: rejected
+- id: stg-178
+  entity: domain
+  fields:
+    name: Network Domain
+    storage_pattern: mixed
+    description: network topology, cell performance, fault events, spectrum utilisation
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-179
+  entity: domain
+  fields:
+    name: Customer Domain
+    storage_pattern: mixed
+    description: subscriber profiles, contracts, interactions, churn signals
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-180
+  entity: domain
+  fields:
+    name: Revenue Domain
+    storage_pattern: mixed
+    description: billing records, payment transactions, product catalogue, invoicing
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-181
+  entity: domain
+  fields:
+    name: Product & IoT Domain
+    storage_pattern: mixed
+    description: device registry, SIM lifecycle, IoT telemetry, service catalogue
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-182
+  entity: product
+  fields:
+    name: Network Events Feed
+    domain_id: network-domain
+    output_port: streaming
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-183
+  entity: product
+  fields:
+    name: Network Topology Snapshot
+    domain_id: network-domain
+    output_port: sql
+    sla_tier: silver
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-184
+  entity: product
+  fields:
+    name: Subscriber 360
+    domain_id: customer-domain
+    output_port: sql
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-185
+  entity: product
+  fields:
+    name: Churn Signals Feed
+    domain_id: customer-domain
+    output_port: streaming
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-186
+  entity: product
+  fields:
+    name: Billing Ledger
+    domain_id: revenue-domain
+    output_port: sql
+    sla_tier: silver
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-187
+  entity: product
+  fields:
+    name: Revenue Summary
+    domain_id: revenue-domain
+    output_port: sql
+    sla_tier: bronze
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-188
+  entity: product
+  fields:
+    name: SIM Lifecycle Events
+    domain_id: product-iot-domain
+    output_port: streaming
+    sla_tier: gold
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-189
+  entity: product
+  fields:
+    name: Device Registry
+    domain_id: product-iot-domain
+    output_port: sql
+    sla_tier: silver
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-190
+  entity: solution
+  fields:
+    name: Data Mesh for Analytics and AI/ML Platform
+    description: Federated data mesh architecture with four initial data domains (Network,
+      Customer, Revenue, Product & IoT) enabling domain teams to own and publish data
+      products via standardised interfaces
+    pattern: data-mesh
+    deployment_target: multi-cloud
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-191
+  entity: standard
+  fields:
+    name: Data Product SQL and Streaming Output Ports
+    category: data
+    status: adopt
+    rationale: All data products must expose SQL and streaming ports via Kafka for
+      standardised discoverability and access
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-192
+  entity: standard
+  fields:
+    name: Data Quality Checks
+    category: data
+    status: adopt
+    rationale: Great Expectations checks mandatory before promotion to Silver/Gold
+      tier
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-193
+  entity: standard
+  fields:
+    name: Data Product Registration in DataHub
+    category: governance
+    status: adopt
+    rationale: All data products must be registered in central DataHub catalogue for
+      discoverability
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-194
+  entity: flow
+  fields:
+    name: Network Domain to Data Consumers
+    source_domain: network-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-195
+  entity: flow
+  fields:
+    name: Customer Domain to Data Consumers
+    source_domain: customer-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-196
+  entity: flow
+  fields:
+    name: Revenue Domain to Data Consumers
+    source_domain: revenue-domain
+    mechanism: api
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-197
+  entity: flow
+  fields:
+    name: Product & IoT Domain to Data Consumers
+    source_domain: product-iot-domain
+    mechanism: streaming
+    classification: internal
+  source: ADR-002-data-mesh-adoption.md
+  status: rejected
+- id: stg-198
+  entity: solution
+  fields:
+    name: Kubernetes Hybrid Platform
+    description: Standardised Kubernetes compute platform deployed across on-premise
+      (Rancher RKE2), AWS (EKS), Azure (AKS), and edge (K3s) for non-network-function
+      workloads
+    pattern: microservices
+    deployment_target: hybrid
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-199
+  entity: standard
+  fields:
+    name: Kubernetes
+    category: Compute
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-200
+  entity: standard
+  fields:
+    name: Helm
+    category: Deployment
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-201
+  entity: standard
+  fields:
+    name: ArgoCD
+    category: GitOps
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-202
+  entity: standard
+  fields:
+    name: Cilium
+    category: Networking
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-203
+  entity: standard
+  fields:
+    name: Istio
+    category: Service Mesh
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-204
+  entity: standard
+  fields:
+    name: Prometheus
+    category: Observability
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-205
+  entity: standard
+  fields:
+    name: Grafana
+    category: Observability
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-206
+  entity: standard
+  fields:
+    name: OpenTelemetry
+    category: Observability
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-207
+  entity: standard
+  fields:
+    name: HashiCorp Vault
+    category: Secrets Management
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-208
+  entity: standard
+  fields:
+    name: Terraform
+    category: Infrastructure Provisioning
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-209
+  entity: standard
+  fields:
+    name: Kafka
+    category: Event Streaming
+    status: adopt
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-210
+  entity: standard
+  fields:
+    name: VMware vSphere
+    category: Compute
+    status: hold
+    rationale: Migration planned by Q3 2026
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-211
+  entity: standard
+  fields:
+    name: Docker Swarm
+    category: Orchestration
+    status: hold
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-212
+  entity: standard
+  fields:
+    name: Jenkins
+    category: CI/CD
+    status: hold
+    rationale: Replaced by GitHub Actions + ArgoCD
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-213
+  entity: standard
+  fields:
+    name: Datadog
+    category: Observability
+    status: hold
+    rationale: Replaced by Grafana stack
+  source: ADR-003-kubernetes-platform.md
+  status: rejected
+- id: stg-214
+  entity: solution
+  fields:
+    name: unified-api-gateway-architecture
+    description: Unified API gateway for all external-facing APIs across internal
+      service-to-service, partner, and public/digital contexts using Kong Gateway
+      Enterprise
+    pattern: api-gateway
+    deployment_target: kubernetes
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-215
+  entity: application
+  fields:
+    name: Kong Gateway Enterprise
+    hosting: kubernetes
+    criticality: high
+    owner: Platform Engineering
+    status: planned
+    description: Unified API gateway deployed on Kubernetes with Kong Konnect SaaS
+      control plane for external-facing APIs
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-216
+  entity: application
+  fields:
+    name: Kong Konnect
+    hosting: saas
+    criticality: high
+    owner: Platform Engineering
+    status: planned
+    description: SaaS-based Kong control plane avoiding self-managed Postgres
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-217
+  entity: application
+  fields:
+    name: Axway API Gateway
+    hosting: vm
+    criticality: high
+    owner: Integration Architecture
+    status: retiring
+    description: Legacy API gateway for partner APIs, version 7.7 at end-of-life Q2
+      2026
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-218
+  entity: application
+  fields:
+    name: AWS API Gateway
+    hosting: managed-service
+    criticality: medium
+    owner: Integration Architecture
+    status: retiring
+    description: Per-service API gateway for public APIs with inconsistent configuration
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-219
+  entity: capability
+  fields:
+    name: api-authentication
+    domain: api-management
+    level: core
+    owner: Integration Architecture
+    description: OAuth 2.0 (PKCE for public), mTLS (partners), API keys (legacy) implemented
+      via Kong Gateway
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-220
+  entity: capability
+  fields:
+    name: api-rate-limiting
+    domain: api-management
+    level: core
+    owner: Integration Architecture
+    description: Redis-backed sliding window rate limiting configurable per consumer/tier
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-221
+  entity: capability
+  fields:
+    name: api-observability
+    domain: api-management
+    level: core
+    owner: Platform Engineering
+    description: Kong metrics exported to OpenTelemetry and visualized in Grafana
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-222
+  entity: capability
+  fields:
+    name: api-developer-portal
+    domain: api-management
+    level: core
+    owner: Partner Ecosystem Lead
+    description: Kong Developer Portal for partner API discovery and onboarding
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-223
+  entity: capability
+  fields:
+    name: api-monetisation
+    domain: api-management
+    level: supporting
+    owner: Integration Architecture
+    description: Foundation for API monetisation enabling partner billing by API consumption
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-224
+  entity: standard
+  fields:
+    name: Kong Gateway
+    category: api-gateway
+    status: adopt
+    rationale: Unified authentication, rate limiting, and observability across all
+      API surfaces; resolves Axway EOL risk; enables self-service partner onboarding
+  source: ADR-004-api-gateway-strategy.md
+  status: rejected
+- id: stg-225
+  entity: capability
+  fields:
+    name: Self-Service Account Management
+    domain: customer-domain
+    level: core
+    description: Enable subscribers to manage their accounts independently via web
+      portal and mobile app
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-226
+  entity: capability
+  fields:
+    name: Subscription & Plan Management
+    domain: customer-domain
+    level: core
+    description: Allow subscribers to view, change, and manage subscription plans
+      with real-time provisioning
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-227
+  entity: capability
+  fields:
+    name: Real-Time Usage & Spend Visibility
+    domain: customer-domain
+    level: core
+    description: Provide subscribers with real-time visibility of usage consumption
+      and associated costs
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-228
+  entity: capability
+  fields:
+    name: Personalised Offer Delivery
+    domain: revenue-domain
+    level: strategic
+    description: ML-backed engine delivering personalized offers to subscribers based
+      on usage patterns and preferences
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-229
+  entity: capability
+  fields:
+    name: Digital Customer Onboarding
+    domain: customer-domain
+    level: core
+    description: Enable new subscriber registration and activation through digital
+      channels
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-230
+  entity: capability
+  fields:
+    name: Multi-Channel Support
+    domain: customer-domain
+    level: supporting
+    description: Provide customer support through chat, email, and in-app channels
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-231
+  entity: capability
+  fields:
+    name: Loyalty & Rewards Management
+    domain: revenue-domain
+    level: supporting
+    description: Manage loyalty programs and rewards for subscriber retention
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-232
+  entity: application
+  fields:
+    name: MyMeridian Mobile App
+    hosting: saas
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: React Native mobile application for iOS and Android serving 14M subscribers
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-233
+  entity: application
+  fields:
+    name: Self-Service Web Portal
+    hosting: kubernetes
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: Next.js 15 web portal for self-service account and subscription management
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-234
+  entity: application
+  fields:
+    name: Agent Desktop
+    hosting: kubernetes
+    criticality: high
+    owner: Customer Support Team
+    status: active
+    description: Internal React-based application for customer support agents
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-235
+  entity: application
+  fields:
+    name: Kong API Gateway
+    hosting: kubernetes
+    criticality: critical
+    owner: Platform Engineering
+    status: active
+    description: Public API gateway providing headless API-first interface to frontend
+      applications
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-236
+  entity: application
+  fields:
+    name: Identity & Auth Service
+    hosting: kubernetes
+    criticality: critical
+    owner: Identity Team
+    status: active
+    description: Keycloak 24 with custom extensions managing authentication and authorization
+      for 14M subscribers
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-237
+  entity: application
+  fields:
+    name: Account Service
+    hosting: kubernetes
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: Java 21 Spring Boot 3 service managing subscriber account data and
+      lifecycle
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-238
+  entity: application
+  fields:
+    name: Subscription Service
+    hosting: kubernetes
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: Java 21 Spring Boot 3 service managing subscription plans and changes
+      with <10 second end-to-end
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-239
+  entity: application
+  fields:
+    name: Usage & Billing Service
+    hosting: kubernetes
+    criticality: critical
+    owner: Billing Team
+    status: active
+    description: Go 1.23 service consuming usage events and maintaining real-time
+      subscriber balance
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-240
+  entity: application
+  fields:
+    name: Notification Service
+    hosting: kubernetes
+    criticality: high
+    owner: Digital Product Team
+    status: active
+    description: Python 3.13 FastAPI service delivering push notifications via FCM
+      and APNs
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-241
+  entity: application
+  fields:
+    name: Offer & Personalisation Engine
+    hosting: kubernetes
+    criticality: high
+    owner: ML Platform
+    status: active
+    description: Python 3.13 ML-backed service delivering personalized offers with
+      p99 latency target <200ms
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-242
+  entity: application
+  fields:
+    name: Loyalty Service
+    hosting: kubernetes
+    criticality: medium
+    owner: Revenue Team
+    status: active
+    description: Node.js service managing loyalty programs and rewards
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-243
+  entity: application
+  fields:
+    name: Support Ticket Service
+    hosting: kubernetes
+    criticality: high
+    owner: Customer Support Team
+    status: active
+    description: Java 21 Spring Boot 3 service managing customer support tickets across
+      channels
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-244
+  entity: application
+  fields:
+    name: "BFF \u2014 Mobile"
+    hosting: kubernetes
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: Node.js GraphQL backend-for-frontend optimized for mobile app clients
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-245
+  entity: application
+  fields:
+    name: "BFF \u2014 Web"
+    hosting: kubernetes
+    criticality: critical
+    owner: Digital Product Team
+    status: active
+    description: Node.js GraphQL backend-for-frontend optimized for web portal clients
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-246
+  entity: standard
+  fields:
+    name: Kong API Gateway
+    category: API Management
+    status: adopt
+    rationale: Headless API-first platform requires API gateway per ADR-004
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-247
+  entity: standard
+  fields:
+    name: Kubernetes
+    category: Container Orchestration
+    status: adopt
+    rationale: All backend services deployed on Kubernetes per ADR-003
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-248
+  entity: standard
+  fields:
+    name: Kafka
+    category: Event Streaming
+    status: adopt
+    rationale: Event-driven architecture for real-time updates per ADR-001
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-249
+  entity: standard
+  fields:
+    name: React Native
+    category: Mobile Framework
+    status: adopt
+    rationale: Standard mobile framework for MyMeridian app
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-250
+  entity: standard
+  fields:
+    name: Next.js
+    category: Web Framework
+    status: adopt
+    rationale: Standard web framework for self-service portal
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-251
+  entity: standard
+  fields:
+    name: Keycloak
+    category: Identity & Access Management
+    status: trial
+    rationale: Replacing legacy Amdocs IdP; requires 14M subscriber session migration
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-252
+  entity: standard
+  fields:
+    name: GraphQL
+    category: API Query Language
+    status: trial
+    rationale: Evaluating for BFF implementation for 12 months before moving to Adopt
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-253
+  entity: standard
+  fields:
+    name: MongoDB Atlas
+    category: Database
+    status: assess
+    rationale: Only for offer catalogue use case; assessing fit
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-254
+  entity: standard
+  fields:
+    name: gRPC
+    category: RPC Framework
+    status: assess
+    rationale: Evaluating for internal service-to-service communication
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-255
+  entity: domain
+  fields:
+    name: customer-domain
+    owner: Digital Product Team
+    storage_pattern: operational
+    description: Core customer experience and account management domain serving 14M
+      subscribers
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-256
+  entity: domain
+  fields:
+    name: revenue-domain
+    owner: Revenue & Marketing Team
+    storage_pattern: operational
+    description: Revenue optimization through offers, loyalty, and personalization
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-257
+  entity: domain
+  fields:
+    name: network-domain
+    owner: Network Engineering
+    storage_pattern: streaming
+    description: Network usage events and provisioning integration
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-258
+  entity: product
+  fields:
+    name: Meridian Customer Experience Platform
+    domain_id: customer-domain
+    output_port: api
+    sla_tier: platinum
+    owner: Head of Digital
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-259
+  entity: flow
+  fields:
+    name: Real-Time Usage Update Flow
+    source_domain: network-domain
+    target_domain: customer-domain
+    mechanism: streaming
+    classification: internal
+    description: Network UPF emits usage events to Kafka; Usage & Billing Service
+      consumes and updates subscriber balance; Notification Service delivers push
+      notifications
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-260
+  entity: flow
+  fields:
+    name: Plan Change Flow
+    source_domain: customer-domain
+    target_domain: network-domain
+    mechanism: streaming
+    classification: internal
+    description: Subscriber initiates plan change via portal; Subscription Service
+      validates and publishes event; Billing and Network Provisioning services consume
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-261
+  entity: flow
+  fields:
+    name: Network Provisioning Integration
+    source_domain: customer-domain
+    target_domain: network-domain
+    mechanism: streaming
+    classification: internal
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-262
+  entity: flow
+  fields:
+    name: BSS Billing Core Integration
+    source_domain: customer-domain
+    target_domain: billing
+    mechanism: api
+    classification: internal
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-263
+  entity: flow
+  fields:
+    name: Salesforce CRM Integration
+    source_domain: customer-domain
+    target_domain: revenue-domain
+    mechanism: streaming
+    classification: internal
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-264
+  entity: flow
+  fields:
+    name: Fraud Management Integration
+    source_domain: customer-domain
+    target_domain: security-data-domain
+    mechanism: streaming
+    classification: internal
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-265
+  entity: solution
+  fields:
+    name: meridian-telecom-customer-experience-platform
+    description: Headless, API-first unified digital platform serving 14M subscribers
+      through MyMeridian mobile app, web portal, and customer-facing APIs
+    pattern: microservices
+    deployment_target: kubernetes
+  source: hld-customer-experience-platform.md
+  status: rejected
+- id: stg-266
+  entity: solution
+  fields:
+    name: Network Operations Platform
+    description: Cloud-native, event-driven operations platform serving Meridian Telecom's
+      operational intelligence layer across 5G network infrastructure, replacing legacy
+      NetCracker OSS with microservices architecture
+    pattern: event-driven
+    deployment_target: hybrid
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-267
+  entity: capability
+  fields:
+    name: Network Fault Management
+    domain: network-operations
+    level: core
+    description: Detection and management of network faults across 4,800 cell sites
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-268
+  entity: capability
+  fields:
+    name: Network Performance Management
+    domain: network-operations
+    level: core
+    description: Monitoring and reporting of network performance metrics and KPIs
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-269
+  entity: capability
+  fields:
+    name: Network Configuration Management
+    domain: network-operations
+    level: core
+    description: GitOps-based network configuration deployment and compliance
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-270
+  entity: capability
+  fields:
+    name: Capacity Planning & Forecasting
+    domain: network-operations
+    level: strategic
+    description: Network capacity analysis and forecasting for optimization
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-271
+  entity: capability
+  fields:
+    name: Field Operations Support
+    domain: network-operations
+    level: supporting
+    description: Mobile and site-level diagnostics for field engineers
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-272
+  entity: capability
+  fields:
+    name: Spectrum Management
+    domain: network-operations
+    level: core
+    description: Management of network spectrum allocation and utilization
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-273
+  entity: capability
+  fields:
+    name: Security Operations (Network)
+    domain: security-data-domain
+    level: core
+    description: Network security event detection and compliance monitoring
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-274
+  entity: domain
+  fields:
+    name: Network Data Domain
+    owner: Network Platform Team
+    storage_pattern: mixed
+    description: Streaming telemetry and historical analytics for network operations
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-275
+  entity: domain
+  fields:
+    name: Security Data Domain
+    owner: Security Operations
+    storage_pattern: mixed
+    description: Network security events and compliance posture data
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-276
+  entity: product
+  fields:
+    name: Network Events Feed
+    domain_id: network-data-domain
+    output_port: streaming
+    sla_tier: gold
+    owner: Network Platform Team
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-277
+  entity: product
+  fields:
+    name: Cell Performance KPIs
+    domain_id: network-data-domain
+    output_port: sql
+    sla_tier: silver
+    owner: Network Platform Team
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-278
+  entity: product
+  fields:
+    name: Network Topology Graph
+    domain_id: network-data-domain
+    output_port: api
+    sla_tier: silver
+    owner: Network Platform Team
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-279
+  entity: product
+  fields:
+    name: Fault History
+    domain_id: network-data-domain
+    output_port: sql
+    sla_tier: bronze
+    owner: Network Platform Team
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-280
+  entity: product
+  fields:
+    name: Capacity Utilisation Report
+    domain_id: network-data-domain
+    output_port: files
+    sla_tier: bronze
+    owner: Network Platform Team
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-281
+  entity: product
+  fields:
+    name: Security Events Stream
+    domain_id: security-data-domain
+    output_port: streaming
+    sla_tier: gold
+    owner: Security Operations
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-282
+  entity: product
+  fields:
+    name: Compliance Posture Snapshot
+    domain_id: security-data-domain
+    output_port: files
+    sla_tier: bronze
+    owner: Security Operations
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-283
+  entity: flow
+  fields:
+    name: Fault Detection and Escalation
+    source_domain: network-data-domain
+    target_domain: network-operations
+    mechanism: streaming
+    classification: internal
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-284
+  entity: flow
+  fields:
+    name: Config Change Flow
+    source_domain: network-operations
+    target_domain: network-data-domain
+    mechanism: api
+    classification: internal
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-285
+  entity: application
+  fields:
+    name: Fault Correlation Engine
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Apache Flink-based correlation of network faults with blast radius
+      analysis
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-286
+  entity: application
+  fields:
+    name: Alarm Management Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Java/Spring Boot service managing alarm records and lifecycle
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-287
+  entity: application
+  fields:
+    name: Incident Auto-Classification
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: ML model for automatic incident categorization and triage
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-288
+  entity: application
+  fields:
+    name: NOC Dashboard
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: React/Grafana-based real-time operational dashboard for NOC engineers
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-289
+  entity: application
+  fields:
+    name: On-Call Routing Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Go service routing incidents to on-call engineers via PagerDuty
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-290
+  entity: application
+  fields:
+    name: KPI Aggregation Service
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Apache Flink service aggregating 15-minute KPIs from raw telemetry
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-291
+  entity: application
+  fields:
+    name: Performance Dashboard
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Grafana-based performance metrics and SLA compliance visualization
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-292
+  entity: application
+  fields:
+    name: SLA Compliance Reporter
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Python service generating SLA compliance reports and breach notifications
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-293
+  entity: application
+  fields:
+    name: Anomaly Detection Engine
+    hosting: kubernetes
+    criticality: medium
+    status: active
+    description: ML-based anomaly detection using Prophet and LSTM for network behavior
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-294
+  entity: application
+  fields:
+    name: Network Config Repository
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Self-hosted GitLab for version-controlled network configuration
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-295
+  entity: application
+  fields:
+    name: Config Deployment Orchestrator
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Python/Ansible-based configuration deployment with compliance validation
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-296
+  entity: application
+  fields:
+    name: Config Compliance Scanner
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Go service validating network configuration compliance post-deployment
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-297
+  entity: application
+  fields:
+    name: Change Management API
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Java/Spring Boot API for network configuration change requests and
+      approvals
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-298
+  entity: application
+  fields:
+    name: Rollback Automation
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Go service for automated configuration rollback on deployment failures
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-299
+  entity: application
+  fields:
+    name: Field Engineer Mobile App
+    hosting: vm
+    criticality: high
+    status: active
+    description: React Native mobile app for field engineers accessing site diagnostics
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-300
+  entity: application
+  fields:
+    name: Field API Gateway
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Kong Gateway providing API access for field operations
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-301
+  entity: application
+  fields:
+    name: Site Diagnostics Service
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Go service providing detailed site-level diagnostic information
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-302
+  entity: application
+  fields:
+    name: Work Order Service
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Java/Spring Boot service managing field work orders with ServiceNow
+      integration
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-303
+  entity: application
+  fields:
+    name: gNMI Collector
+    hosting: kubernetes
+    criticality: critical
+    status: active
+    description: Go service collecting gNMI streaming telemetry from Nokia/Ericsson
+      RAN equipment
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-304
+  entity: application
+  fields:
+    name: SNMP Gateway
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Python service polling legacy SNMP MIBs from core routers
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-305
+  entity: application
+  fields:
+    name: Syslog Aggregator
+    hosting: kubernetes
+    criticality: high
+    status: active
+    description: Vector-based aggregation of syslog from all network elements
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-306
+  entity: standard
+  fields:
+    name: Apache Kafka
+    category: messaging
+    status: adopt
+    rationale: Event-driven integration backbone per ADR-001
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-307
+  entity: standard
+  fields:
+    name: Apache Flink
+    category: stream-processing
+    status: adopt
+    rationale: Stream processing standard for NOP fault correlation and KPI aggregation
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-308
+  entity: standard
+  fields:
+    name: Kubernetes
+    category: container-orchestration
+    status: adopt
+    rationale: Core platform per ADR-003 for on-premise and K3s for edge POP sites
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-309
+  entity: standard
+  fields:
+    name: VictoriaMetrics
+    category: time-series-database
+    status: adopt
+    rationale: Replaces InfluxDB with 2x lower cost for metrics storage
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-310
+  entity: standard
+  fields:
+    name: ClickHouse
+    category: analytics-database
+    status: adopt
+    rationale: Columnar analytics at petabyte scale for long-term telemetry storage
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-311
+  entity: standard
+  fields:
+    name: Grafana
+    category: observability
+    status: adopt
+    rationale: Unified observability and NOC dashboard platform
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-312
+  entity: standard
+  fields:
+    name: gNMI streaming
+    category: telemetry
+    status: adopt
+    rationale: Modern telemetry standard for network element monitoring
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-313
+  entity: standard
+  fields:
+    name: Vector
+    category: log-aggregation
+    status: trial
+    rationale: Replacing Fluentd for log collection and aggregation
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-314
+  entity: standard
+  fields:
+    name: SNMP
+    category: telemetry
+    status: hold
+    rationale: Legacy protocol; migrate to gNMI by Q4 2026
+  source: hld-network-operations-platform.md
+  status: rejected
+- id: stg-315
+  entity: standard
+  fields:
+    name: Ansible
+    category: infrastructure-automation
+    status: assess
+    rationale: Evaluating against Terraform and Crossplane for network infrastructure
+  source: hld-network-operations-platform.md
+  status: rejected

@@ -1,0 +1,27 @@
+# Strata local stack — PostgreSQL 16 with pgvector extension
+# Spin up:  docker compose up -d
+# Tear down: docker compose down
+# Wipe data: docker compose down -v
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: strata-db
+    environment:
+      POSTGRES_DB: strata
+      POSTGRES_USER: strata
+      POSTGRES_PASSWORD: strata
+    ports:
+      - "5432:5432"
+    volumes:
+      - strata-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U strata -d strata"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+volumes:
+  strata-pgdata:
+    name: strata-pgdata

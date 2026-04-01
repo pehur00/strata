@@ -1,0 +1,11 @@
+id: meridian-telecom-customer-experience-platform
+name: Meridian Telecom Customer Experience Platform
+description: Unified digital platform serving 14M subscribers via mobile app, web
+  portal, and APIs; replaces legacy Amdocs DigitalEx with real-time personalisation
+  and headless API model
+status: draft
+business_capability_ids: []
+components: []
+adrs: []
+deployment_target: aws
+pattern: microservices
